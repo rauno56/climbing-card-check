@@ -1,2 +1,13 @@
 dist
 node_modules
+# Layer0 generated build directory
+.layer0
+
+# Local Netlify folder
+.netlify
+.vercel
+
+# Key file for Google API's service account
+key.json
+
+.env

@@ -1,5 +1,5 @@
  async function fetchResult(id) {
-	const res = await fetch(`/api/check/${id}`);
+	const res = await fetch(`/api/check?id=${id}`);
 	const data = await res.text();
 	return data;
 }
@@ -7,7 +7,7 @@
 async function logSubmit(event) {
 	event.preventDefault();
 
-	log.textContent = `Form Submitted! Time stamp: ${event.timeStamp}`;
+	log.textContent = `Response: `;
 	console.log(event);
 	const result = await fetchResult(idCodeInput.value);
 
