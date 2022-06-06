@@ -30,21 +30,21 @@
         <div id="right">
             <div class="centered-content">
                 <div id="result">
-                    <div class="header green hidden">GREEN CARD</div>
-                    <div class="header gray">NO INFORMATION FOUND</div>
-                    <div class="no-info">
+                    <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'RED' : 'GREEN' }} CARD</div>
+                    <div v-if="!currentClimber" class="header gray">NO INFORMATION FOUND</div>
+                    <div v-if="!currentClimber" class="no-info">
                         <p class="">There is no climbing card information linked to the ID number</p>
                         <img src="assets/not-found-illustration.svg" alt="">
                     </div>
 
-                    <div id="result-content" class="hidden">
+                    <div v-if="currentClimber" id="result-content">
                         <div class="row">
                             <p class="heading">ISIKUKOOD</p>
-                            <p class="content">39205310024</p>
+                            <p class="content">{{currentClimber.id}}</p>
                         </div>
                         <div class="row">
                             <p class="heading">TÄISNIMI</p>
-                            <p class="content">John Long Surname Doe</p>
+                            <p class="content">{{currentClimber.name}}</p>
                         </div>
                         <div class="row">
                             <p class="heading">EKSAMI AEG</p>

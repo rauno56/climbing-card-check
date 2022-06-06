@@ -1,5 +1,6 @@
 Vue.createApp({
     data: () => ({
+        currentClimber: null,
         idCode: '',
     }),
     created() {
@@ -7,10 +8,15 @@ Vue.createApp({
     },
     methods: {
         fetchResult: function(id) {
-            const res = fetch(`/api/check?id=${id}`);
-            console.log(res)
+            fetch(`/api/check?id=${id}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    this.currentClimber = data
+                    console.log(this.currentClimber)
+                });
         },
         submit: function(event) {
+            if (!this.idCode) return;
             const result = this.fetchResult(this.idCode);
         },
     }

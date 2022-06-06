@@ -258,6 +258,10 @@ button.loading {}
     background: linear-gradient(89.6deg, #388659 29.54%, #3EAE6E 99.65%);
 }
 
+.header.red {
+    background: linear-gradient(88.84deg, #AE3939 20.82%, #D13333 97.63%);
+}
+
 .header.gray {
     justify-content: center;
     background: linear-gradient(89.14deg, #4D4D4D 28.5%, #8E8E8E 131.48%);
