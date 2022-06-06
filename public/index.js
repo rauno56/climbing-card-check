@@ -1,5 +1,6 @@
 Vue.createApp({
     data: () => ({
+        showInstructions: true,
         currentClimber: null,
         idCode: '',
     }),
@@ -11,8 +12,8 @@ Vue.createApp({
             fetch(`/api/check?id=${id}`)
                 .then((response) => response.json())
                 .then((data) => {
-                    this.currentClimber = data
-                    console.log(this.currentClimber)
+                    this.showInstructions = false;
+                    this.currentClimber = data.success ? data : null;
                 });
         },
         submit: function(event) {

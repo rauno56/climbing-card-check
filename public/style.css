@@ -329,3 +329,38 @@ button.loading {}
     justify-content: center;
     align-items: center;
 }
+
+.instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 32px;
+}
+
+.instructions .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.instructions .row-number-wrapper {
+    flex: 1;
+}
+
+.instructions .row-number {
+    display: table-cell !important;
+    color: white;
+    min-width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    color: #fff;
+    vertical-align: middle;
+    text-align: center;
+    background: #284BB1;
+    gap: 10px;
+}

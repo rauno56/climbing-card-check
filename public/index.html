@@ -29,7 +29,7 @@
         </div>
         <div id="right">
             <div class="centered-content">
-                <div id="result">
+                <div v-if="!showInstructions" id="result">
                     <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'RED' : 'GREEN' }} CARD</div>
                     <div v-if="!currentClimber" class="header gray">NO INFORMATION FOUND</div>
                     <div v-if="!currentClimber" class="no-info">
@@ -57,9 +57,30 @@
                         <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad osused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
                     </div>
                 </div>
-                <p class="warning">Validate the card information with the ID data of the climber</p>
-                <p class="warning">Make sure the climber and the card holder is the same person</p>
+                <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p>
+                <p v-if="!showInstructions" class="warning">Make sure the climber and the card holder is the same person</p>
+                <div v-if="showInstructions" class="instructions">
+                    <div class="row">
+                        <div class="row-number-wrapper">
+                            <div class="row-number">1</div>
+                        </div>
+                        <p>Request ID to climbers who want to access the climbing wall.</p>
+                    </div>
+                    <div class="row">
+                        <div class="row-number-wrapper">
+                            <div class="row-number">2</div>
+                        </div>
+                        <p>Search the climbers certification with the ID Number.</p>
+                    </div>
+                    <div class="row">
+                        <div class="row-number-wrapper">
+                            <div class="row-number">3</div>
+                        </div>
+                        <p>Validate result the ID data and person’s picture.</p>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </body>
