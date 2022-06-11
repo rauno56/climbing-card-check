@@ -11,3 +11,4 @@ node_modules
 key.json
 
 .env
+newrelic_agent.log
