@@ -21,8 +21,10 @@ const load = () => {
     const defaultEnvironmentVariable = 'GOOGLE_KEY';
     const defaultFilePath = './key.json';
 
-    console.error('Loading the key from env');
-    return loadFromEnv(defaultEnvironmentVariable);
+    if (process.env[defaultEnvironmentVariable]) {
+        console.error('Loading the key from env');
+        return loadFromEnv(defaultEnvironmentVariable);
+    }
 
     console.error('Loading the key from file');
     return loadFromFile(defaultFilePath);
