@@ -3,6 +3,7 @@ Vue.createApp({
         showInstructions: true,
         currentClimber: null,
         idCode: '',
+        isLoading: false,
     }),
     created() {
 
@@ -21,10 +22,12 @@ Vue.createApp({
                     if (!data) return;
                     this.showInstructions = false;
                     this.currentClimber = data.success ? data : null;
+                    this.isLoading = false;
                 });
         },
         submit: function(event) {
             if (!this.idCode) return;
+            this.isLoading = true;
             const result = this.fetchResult(this.idCode);
         },
         goBack: function() {

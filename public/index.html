@@ -18,11 +18,12 @@
         <div id="left-background"></div>
         <div id="left" :class="currentClimber ? 'mobile-hide':''">
             <form id="form" @submit.prevent="submit">
-                <p>Validate the climbing certifciate using the ID code</p>
+                <p>Kontrolli ronimisõigust isikukoodi alusel</p>
                 <div id="id-input">
-                    <label>ID Number</label>
+                    <label>Isikukood</label>
                     <input type="text" v-model.trim="idCode" placeholder="79022040828">
-                    <button>VALIDATE</button>
+                    <!-- <button><img v-if="isLoading" src="assets/Rolling-1s-200px.svg">KONTROLLI</button> -->
+                    <button>KONTROLLI</button>
                 </div>
             </form>
         </div>
@@ -30,9 +31,9 @@
             <div class="centered-content">
                 <div v-if="!showInstructions" id="result">
                     <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'RED' : 'GREEN' }} CARD</div>
-                    <div v-if="!currentClimber" class="header gray">NO INFORMATION FOUND</div>
+                    <div v-if="!currentClimber" class="header gray">ANDMEID EI LEITUD</div>
                     <div v-if="!currentClimber" class="no-info">
-                        <p class="">There is no climbing card information linked to the ID number</p>
+                        <p class="">Sellise isikukoodiga ronija andmeid ei leitud</p>
                         <img src="assets/not-found-illustration.svg" alt="">
                     </div>
 
@@ -56,26 +57,26 @@
                         <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad osused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
                     </div>
                 </div>
-                <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p>
-                <p v-if="!showInstructions" class="warning">Make sure the climber and the card holder is the same person</p>
+                <!-- <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p> -->
+                <p v-if="!showInstructions" class="warning">Veendu, et ronija on isikuttõendava dokumendi omanik</p>
                 <div v-if="showInstructions" class="instructions">
                     <div class="row">
                         <div class="row-number-wrapper">
                             <div class="row-number">1</div>
                         </div>
-                        <p>Request ID to climbers who want to access the climbing wall.</p>
+                        <p>Palu seinale ligipääsu soovijate isikuttõendavaid dokumente.</p>
                     </div>
                     <div class="row">
                         <div class="row-number-wrapper">
                             <div class="row-number">2</div>
                         </div>
-                        <p>Search the climbers certification with the ID Number.</p>
+                        <p>Veendu, et ronijad on dokumentide päris omanikud.</p>
                     </div>
                     <div class="row">
                         <div class="row-number-wrapper">
                             <div class="row-number">3</div>
                         </div>
-                        <p>Validate result the ID data and person’s picture.</p>
+                        <p>Kontrolli ronijate isikukoode süsteemis ning veendu, et neil on ronimisõigus.</p>
                     </div>
                 </div>
             </div>
@@ -86,9 +87,9 @@
                 <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg">Back</div>
                 <div id="result">
                     <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'RED' : 'GREEN' }} CARD</div>
-                    <div v-if="!currentClimber" class="header gray">NO INFORMATION FOUND</div>
+                    <div v-if="!currentClimber" class="header gray">ANDMEID EI LEITUD</div>
                     <div v-if="!currentClimber" class="no-info">
-                        <p class="">There is no climbing card information linked to the ID number</p>
+                        <p class="">Sellise isikukoodiga ronija andmeid ei leitud</p>
                         <img src="assets/not-found-illustration.svg" alt="">
                     </div>
 
@@ -112,8 +113,8 @@
                         <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad osused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
                     </div>
                 </div>
-                <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p>
-                <p v-if="!showInstructions" class="warning">Make sure the climber and the card holder is the same person</p>
+                <!-- <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p> -->
+                <p v-if="!showInstructions" class="warning">Veendu, et ronija on isikuttõendava dokumendi omanik</p>
             </div>
         </div>
     </div>
