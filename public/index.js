@@ -27,5 +27,8 @@ Vue.createApp({
             if (!this.idCode) return;
             const result = this.fetchResult(this.idCode);
         },
+        goBack: function() {
+            this.currentClimber = null;
+        }
     }
 }).mount('#app')
