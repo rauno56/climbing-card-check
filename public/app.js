@@ -1,4 +1,4 @@
- async function fetchResult(id) {
+async function fetchResult(id) {
 	const res = await fetch(`/api/check?id=${id}`);
 	const data = await res.text();
 	return data;
@@ -7,7 +7,7 @@
 async function logSubmit(event) {
 	event.preventDefault();
 
-	log.textContent = `Response: `;
+	log.textContent = 'Response: ';
 	console.log(event);
 	const result = await fetchResult(idCodeInput.value);
 

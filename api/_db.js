@@ -4,7 +4,7 @@ import { strict as assert } from 'assert';
 import { google } from 'googleapis';
 
 const spreadsheetId = process.env.SPREADSHEET_ID;
-const sheetRange = 'Sheet1'
+const sheetRange = 'Sheet1';
 const sheets = google.sheets('v4');
 
 assert.equal(typeof spreadsheetId, 'string', 'Expected SPREADSHEET_ID env var to be set');
@@ -44,15 +44,15 @@ const connect = (serviceAccountEmail, privateKey) => {
 		['https://www.googleapis.com/auth/spreadsheets']
 	);
 	return jwtClient.authorize().then(() => jwtClient);
-}
+};
 
-const fetchAllData = async (client)  => {
+const fetchAllData = async (client) => {
 	assert(client instanceof google.auth.JWT, '"client" required');
 
 	return sheets.spreadsheets.values.get({
-		 auth: client,
-		 spreadsheetId: spreadsheetId,
-		 range: sheetRange
+		auth: client,
+		spreadsheetId: spreadsheetId,
+		range: sheetRange
 	});
 };
 
