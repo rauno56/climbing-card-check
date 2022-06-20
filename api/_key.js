@@ -1,4 +1,3 @@
-import { strict as assert } from 'assert';
 import { readFileSync } from 'fs';
 
 const loadFromEnv = (varName) => {
