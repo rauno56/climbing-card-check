@@ -90,9 +90,9 @@
 
         <div id="mobile-results" v-if="currentClimber" class="mobile">
             <div class="centered-content">
-                <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg">Back</div>
+                <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
                 <div id="result">
-                    <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'RED' : 'GREEN' }} CARD</div>
+                    <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'PUNANE' : 'ROHELINE' }} KAART</div>
                     <div v-if="!currentClimber" class="header gray">ANDMEID EI LEITUD</div>
                     <div v-if="!currentClimber" class="no-info">
                         <p class="">Sellise isikukoodiga ronija andmeid ei leitud</p>
