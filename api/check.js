@@ -1,5 +1,3 @@
-import { strict as assert } from 'assert';
-
 import * as db from './_db.js';
 import * as key from './_key.js';
 
