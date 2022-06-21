@@ -1,18 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Climbing Card Checker</title>
-	<script async src="./app.js"></script>
-	<link rel="stylesheet" href="app.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Julgestajakaardi registri otsing</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3"></script>
 </head>
+
 <body>
-	<form id="form">
-	  <label>Isikukood: <input id="idCode" type="text"></label>
-	  <br><br>
-	  <button type="submit">Kontrolli</button>
-	</form>
-	<p id="log"></p>
+    <div id="app">
+        <div id="left-background"></div>
+        <div id="left" :class="currentClimber ? 'mobile-hide':''">
+            <form id="form" @submit.prevent="submit">
+                <p>Kontrolli ronimisõigust isikukoodi alusel</p>
+                <div id="id-input">
+                    <label>Isikukood</label>
+                    <input type="text" v-model.trim="idCode" placeholder="12345678901">
+                    <!-- <button><img v-if="isLoading" src="assets/Rolling-1s-200px.svg">KONTROLLI</button> -->
+                    <button>KONTROLLI</button>
+                </div>
+            </form>
+        </div>
+        <div id="right" class="desktop">
+            <div class="centered-content">
+                <div v-if="!showInstructions" id="result">
+                    <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'RED' : 'GREEN' }} CARD</div>
+                    <div v-if="!currentClimber" class="header gray">ANDMEID EI LEITUD</div>
+                    <div v-if="!currentClimber" class="no-info">
+                        <p class="">Sellise isikukoodiga ronija andmeid ei leitud</p>
+                        <img src="assets/not-found-illustration.svg" alt="">
+                    </div>
+
+                    <div v-if="currentClimber" id="result-content">
+                        <div class="row">
+                            <p class="heading">ISIKUKOOD</p>
+                            <p class="content">{{currentClimber.id}}</p>
+                        </div>
+                        <div class="row">
+                            <p class="heading">TÄISNIMI</p>
+                            <p class="content">{{currentClimber.name}}</p>
+                        </div>
+                        <div class="row">
+                            <p class="heading">EKSAMI AEG</p>
+                            <p class="content">2020/23/02</p>
+                        </div>
+                        <div class="row">
+                            <p class="heading">EKSAMINEERIJA</p>
+                            <p class="content">PEEDO</p>
+                        </div>
+                        <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad osused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
+                    </div>
+                </div>
+                <!-- <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p> -->
+                <p v-if="!showInstructions" class="warning">Veendu, et ronija on isikut tõendava dokumendi omanik</p>
+                <div v-if="showInstructions" class="instructions">
+                    <div class="row">
+                        <div class="row-number-wrapper">
+                            <div class="row-number">1</div>
+                        </div>
+                        <p>Küsi ronija isikut tõendavat dokumenti</p>
+                    </div>
+                    <div class="row">
+                        <div class="row-number-wrapper">
+                            <div class="row-number">2</div>
+                        </div>
+                        <p>Veendu, et tegemist on sama inimesega</p>
+                    </div>
+                    <div class="row">
+                        <div class="row-number-wrapper">
+                            <div class="row-number">3</div>
+                        </div>
+                        <p>Kontrolli registrist ronija isikukoodi</p>
+                    </div>
+                    <div class="row">
+                        <div class="row-number-wrapper">
+                            <div class="row-number">4</div>
+                        </div>
+                        <p>Veendu, et tal on õigus julgestada</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-results" v-if="currentClimber" class="mobile">
+            <div class="centered-content">
+                <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
+                <div id="result">
+                    <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'PUNANE' : 'ROHELINE' }} KAART</div>
+                    <div v-if="!currentClimber" class="header gray">ANDMEID EI LEITUD</div>
+                    <div v-if="!currentClimber" class="no-info">
+                        <p class="">Sellise isikukoodiga ronija andmeid ei leitud</p>
+                        <img src="assets/not-found-illustration.svg" alt="">
+                    </div>
+
+                    <div id="result-content">
+                        <div class="row">
+                            <p class="heading">ISIKUKOOD</p>
+                            <p class="content">{{currentClimber.id}}</p>
+                        </div>
+                        <div class="row">
+                            <p class="heading">TÄISNIMI</p>
+                            <p class="content">{{currentClimber.name}}</p>
+                        </div>
+                        <div class="row">
+                            <p class="heading">EKSAMI AEG</p>
+                            <p class="content">2020/23/02</p>
+                        </div>
+                        <div class="row">
+                            <p class="heading">EKSAMINEERIJA</p>
+                            <p class="content">PEEDO</p>
+                        </div>
+                        <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad osused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
+                    </div>
+                </div>
+                <!-- <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p> -->
+                <p v-if="!showInstructions" class="warning">Veendu, et ronija on isikut tõendava dokumendi omanik</p>
+            </div>
+        </div>
+    </div>
 </body>
+
+<script type="module" src="./index.js"></script>
+
 </html>

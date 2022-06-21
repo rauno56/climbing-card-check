@@ -1,0 +1,405 @@
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+
+/*
+  2. Remove default margin
+*/
+
+* {
+    margin: 0;
+}
+
+
+/*
+  3. Allow percentage-based heights in the application
+*/
+
+html,
+body {
+    height: 100%;
+}
+
+
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/*
+  6. Improve media defaults
+*/
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+
+/*
+  7. Remove built-in form typography styles
+*/
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+
+/*
+  8. Avoid text overflows
+*/
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+
+/*
+  9. Create a root stacking context
+*/
+
+#root,
+#__next {
+    isolation: isolate;
+}
+
+button {
+    border: none;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#app {
+    height: 100%;
+    display: flex;
+}
+
+#left-background {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: block;
+    background-image: url('assets/stock-photo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    -webkit-filter: blur(4px);
+    -moz-filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+    filter: blur(4px);
+}
+
+#left {
+    z-index: 9999;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    background: linear-gradient(0deg, rgba(39, 154, 241, 0.3), rgba(39, 154, 241, 0.3));
+    justify-content: center;
+    align-items: center;
+}
+
+#right {
+    z-index: 9999;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+form {
+    margin: 24px;
+    background: white;
+    max-width: 500px;
+    display: flex;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px;
+    gap: 32px;
+}
+
+form p {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 32px;
+    /* or 133% */
+    text-align: center;
+    color: #183642;
+}
+
+label {
+    font-weight: 500;
+}
+
+input {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+    background: #F1FAFF;
+    border: 1px solid #183642;
+    border-radius: 16px;
+    /* Inside auto layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+#id-input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 16px;
+}
+
+button {
+    padding: 16px 10px;
+    background: linear-gradient(86.59deg, #26408B 22.05%, #279AF1 172.51%);
+    border-radius: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+    letter-spacing: 0.09em;
+    color: #FFFFFF;
+    width: 100%;
+    transition: box-shadow 100ms ease-in-out;
+}
+
+button:hover {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(87.31deg, #26408B -29.47%, #279AF1 170.76%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+button:focus {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(86.59deg, #26408B 22.05%, #279AF1 172.51%);
+}
+
+button:disabled {
+    background: linear-gradient(86.59deg, rgba(38, 64, 139, 0.4) 22.05%, rgba(39, 154, 241, 0.4) 172.51%);
+}
+
+button.loading {}
+
+.centered-content {
+    margin: 24px;
+}
+
+#result {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.15));
+    gap: 16px;
+    background: #F5F5F5;
+    border-radius: 16px 16px 16px 16px;
+}
+
+#result .header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    border-radius: 16px 16px 0px 0px;
+    padding: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 24px;
+    letter-spacing: 0.02em;
+    color: #FFFFFF;
+}
+
+.header.green {
+    background: linear-gradient(89.6deg, #388659 29.54%, #3EAE6E 99.65%);
+}
+
+.header.red {
+    background: linear-gradient(88.84deg, #AE3939 20.82%, #D13333 97.63%);
+}
+
+.header.gray {
+    justify-content: center;
+    background: linear-gradient(89.14deg, #4D4D4D 28.5%, #8E8E8E 131.48%);
+}
+
+.no-info {
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+    color: #6F6F6F;
+    padding: 0px 32px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.no-info img {
+    padding-left: 36px;
+    padding-right: 36px;
+}
+
+#result-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px 32px 24px;
+    gap: 16px;
+}
+
+#result-content .heading {
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: #183642;
+}
+
+#result-content .content {
+    font-size: 24px;
+}
+
+#result-content .description {
+    font-size: 16px;
+    color: #6F6F6F;
+}
+
+.warning {
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+    padding-top: 16px;
+}
+
+.warning::before {
+    content: '!';
+    width: 24px;
+    height: 24px;
+    background: #F79F79;
+    border-radius: 1000px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 32px;
+}
+
+.instructions .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.instructions .row-number-wrapper {
+    flex: 1;
+}
+
+.instructions .row-number {
+    display: table-cell !important;
+    color: white;
+    min-width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    color: #fff;
+    vertical-align: middle;
+    text-align: center;
+    background: #284BB1;
+    gap: 10px;
+}
+
+
+/* Mobile only*/
+
+@media only screen and (max-width: 56rem) {
+    .desktop {
+        display: none !important;
+    }
+    #left {
+        width: 100%;
+    }
+    .mobile-hide {
+        display: none !important;
+    }
+    #mobile-results {
+        background: #F4F7FF;
+        z-index: 9999;
+    }
+    .back-button {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        color: #284BB1;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.02em;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+}
+
+
+/* Desktop only */
+
+@media only screen and (min-width: 57rem) {
+    .mobile {
+        display: none !important;
+    }
+}
