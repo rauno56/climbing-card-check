@@ -1,4 +1,7 @@
 module.exports = {
+	'globals': {
+		'Vue': true,
+	},
 	'env': {
 		'browser': true,
 		'es2021': true,
