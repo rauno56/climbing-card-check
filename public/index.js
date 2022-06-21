@@ -9,7 +9,7 @@ Vue.createApp({
 
 	},
 	methods: {
-		fetchResult: function(id) {
+		fetchResult: function (id) {
 			return fetch(`/api/check?id=${id}`)
 				.then((response) => {
 					if (!response.ok) {
@@ -19,7 +19,7 @@ Vue.createApp({
 					return response.json();
 				});
 		},
-		submit: function() {
+		submit: function () {
 			if (!this.idCode) return;
 			this.isLoading = true;
 			this.fetchResult(this.idCode)
@@ -30,7 +30,7 @@ Vue.createApp({
 					this.isLoading = false;
 				});
 		},
-		goBack: function() {
+		goBack: function () {
 			this.currentClimber = null;
 		}
 	}

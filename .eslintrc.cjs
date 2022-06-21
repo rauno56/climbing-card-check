@@ -19,10 +19,11 @@ module.exports = {
 		'vue'
 	],
 	'rules': {
-		'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 0 }],
 		'eol-last': ['error', 'always'],
 		'indent': ['error', 'tab'],
 		'linebreak-style': ['error', 'unix'],
+		'space-before-function-paren': ['error', { 'anonymous': 'always', 'named': 'ignore', 'asyncArrow': 'always' }],
+		'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 0 }],
 		'quotes': ['error', 'single'],
 		'semi': ['error', 'always'],
 	}
