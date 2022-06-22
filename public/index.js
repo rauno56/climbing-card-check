@@ -9,15 +9,20 @@ Vue.createApp({
 
 	},
 	methods: {
-		fetchResult: function(id) {
-			fetch(`/api/check?id=${id}`)
+		fetchResult: function (id) {
+			return fetch(`/api/check?id=${id}`)
 				.then((response) => {
 					if (!response.ok) {
 						this.currentClimber = null;
 						return;
 					}
 					return response.json();
-				})
+				});
+		},
+		submit: function () {
+			if (!this.idCode) return;
+			this.isLoading = true;
+			this.fetchResult(this.idCode)
 				.then((data) => {
 					if (!data) return;
 					this.showInstructions = false;
@@ -25,12 +30,7 @@ Vue.createApp({
 					this.isLoading = false;
 				});
 		},
-		submit: function(event) {
-			if (!this.idCode) return;
-			this.isLoading = true;
-			const result = this.fetchResult(this.idCode);
-		},
-		goBack: function() {
+		goBack: function () {
 			this.currentClimber = null;
 		}
 	}
