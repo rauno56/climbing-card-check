@@ -30,14 +30,21 @@
         <div id="right" class="desktop">
             <div class="centered-content">
                 <div v-if="!showInstructions" id="result">
-                    <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'RED' : 'GREEN' }} CARD</div>
-                    <div v-if="!currentClimber" class="header gray">ANDMEID EI LEITUD</div>
-                    <div v-if="!currentClimber" class="no-info">
+                    <div v-if="showClimberInfo" :class="currentClimber.certificate + ' header'">{{ resultCardHeaderContent }}</div>
+                    
+                    <div v-if="showNoInfo" class="header gray">ANDMEID EI LEITUD</div>
+                    <div v-if="showNoInfo" class="no-info">
                         <p class="">Sellise isikukoodiga ronija andmeid ei leitud</p>
                         <img src="assets/not-found-illustration.svg" alt="">
                     </div>
+                    
+                    <div v-if="showNoCertClimberInfo" class="header gray">RONIJAL PUUDUB RONIJAKAART</div>
+                    <div v-if="showNoCertClimberInfo" class="no-info">
+                        <p class="">Ronija andmed on süsteemi lisatud, kuid tal puudub ronijakaart</p>
+                        <img src="assets/not-found-illustration.svg" alt="">
+                    </div>
 
-                    <div v-if="currentClimber" id="result-content">
+                    <div v-if="showClimberInfo" id="result-content">
                         <div class="row">
                             <p class="heading">ISIKUKOOD</p>
                             <p class="content">{{currentClimber.id}}</p>
@@ -46,13 +53,13 @@
                             <p class="heading">TÄISNIMI</p>
                             <p class="content">{{currentClimber.name}}</p>
                         </div>
-                        <div class="row">
+                       <div class="row">
                             <p class="heading">EKSAMI AEG</p>
-                            <p class="content">2020/23/02</p>
+                            <p class="content">{{currentClimber.examTime?.replaceAll('-','/')}}</p>
                         </div>
                         <div class="row">
                             <p class="heading">EKSAMINEERIJA</p>
-                            <p class="content">PEEDO</p>
+                            <p class="content">{{currentClimber.examiner}}</p>
                         </div>
                         <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad osused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
                     </div>
@@ -92,10 +99,17 @@
             <div class="centered-content">
                 <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
                 <div id="result">
-                    <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'PUNANE' : 'ROHELINE' }} KAART</div>
-                    <div v-if="!currentClimber" class="header gray">ANDMEID EI LEITUD</div>
-                    <div v-if="!currentClimber" class="no-info">
+                    <div v-if="showClimberInfo" :class="currentClimber.certificate + ' header'">{{ resultCardHeaderContent }}</div>
+                    
+                    <div v-if="showNoInfo" class="header gray">ANDMEID EI LEITUD</div>
+                    <div v-if="showNoInfo" class="no-info">
                         <p class="">Sellise isikukoodiga ronija andmeid ei leitud</p>
+                        <img src="assets/not-found-illustration.svg" alt="">
+                    </div>
+                    
+                    <div v-if="showNoCertClimberInfo" class="header gray">RONIJAL PUUDUB RONIJAKAART</div>
+                    <div v-if="showNoCertClimberInfo" class="no-info">
+                        <p class="">Ronija andmed on süsteemi lisatud, kuid tal puudub ronijakaart</p>
                         <img src="assets/not-found-illustration.svg" alt="">
                     </div>
 
@@ -110,11 +124,11 @@
                         </div>
                         <div class="row">
                             <p class="heading">EKSAMI AEG</p>
-                            <p class="content">2020/23/02</p>
+                            <p class="content">{{currentClimber.examTime?.replaceAll('-','/')}}</p>
                         </div>
                         <div class="row">
                             <p class="heading">EKSAMINEERIJA</p>
-                            <p class="content">PEEDO</p>
+                            <p class="content">{{currentClimber.examiner}}</p>
                         </div>
                         <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad osused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
                     </div>

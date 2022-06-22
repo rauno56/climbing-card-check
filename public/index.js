@@ -6,7 +6,30 @@ Vue.createApp({
 		isLoading: false,
 	}),
 	created() {
-
+	},
+	computed:{
+		resultCardHeaderContent(){
+			if(!this.currentClimber) return null;
+			switch (this.currentClimber.certificate) {
+				case 'green':
+					return 'ROHELINE KAART';
+				case 'red':
+					return 'PUNANE KAART';
+				case 'instructor':
+					return 'INSTRUKTOR';
+				default:
+					return null;
+			}
+		},
+		showNoInfo(){
+			return !this.currentClimber;
+		},
+		showClimberInfo(){
+			return this.currentClimber && this.currentClimber.certificate !== "none";
+		},
+		showNoCertClimberInfo(){
+			return this.currentClimber && this.currentClimber.certificate === "none";
+		},
 	},
 	methods: {
 		fetchResult: function (id) {
@@ -28,6 +51,8 @@ Vue.createApp({
 					this.showInstructions = false;
 					this.currentClimber = data.success ? data : null;
 					this.isLoading = false;
+					console.log(this.currentClimber.certificate)
+					console.log(this.currentClimber.certificate !== "none")
 				});
 		},
 		goBack: function () {
