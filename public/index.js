@@ -34,7 +34,7 @@ Vue.createApp({
 		goBack: function () {
 			this.currentClimber = null;
 		},
-		toggleMobileInstructions: function(){
+		toggleMobileInstructions: function (){
 			this.showMobileInstructions = !this.showMobileInstructions;
 		}
 	}
