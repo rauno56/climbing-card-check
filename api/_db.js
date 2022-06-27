@@ -13,7 +13,7 @@ const CODE = {
 	GREEN: 'green',
 	RED: 'red',
 	INSTRUCTOR: 'instructor',
-	NONE: "none",
+	NONE: 'none',
 	UNKNOWN: 'unknown',
 };
 
@@ -61,7 +61,7 @@ const fetchAllData = async (client) => {
 
 // raw input from the sheet => valueof CODE
 const normalizeCertificate = (rawCertificate) => {
-	rawCertificate = rawCertificate ?? "";
+	rawCertificate = rawCertificate ?? '';
 	const certificate = RAW_VALUE_TO_CODE[rawCertificate.toLowerCase()];
 
 	if (certificate) {

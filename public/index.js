@@ -11,24 +11,24 @@ Vue.createApp({
 		resultCardHeaderContent(){
 			if(!this.currentClimber) return null;
 			switch (this.currentClimber.certificate) {
-				case 'green':
-					return 'ROHELINE KAART';
-				case 'red':
-					return 'PUNANE KAART';
-				case 'instructor':
-					return 'INSTRUKTOR';
-				default:
-					return null;
+			case 'green':
+				return 'ROHELINE KAART';
+			case 'red':
+				return 'PUNANE KAART';
+			case 'instructor':
+				return 'INSTRUKTOR';
+			default:
+				return null;
 			}
 		},
 		showNoInfo(){
 			return !this.currentClimber;
 		},
 		showClimberInfo(){
-			return this.currentClimber && this.currentClimber.certificate !== "none";
+			return this.currentClimber && this.currentClimber.certificate !== 'none';
 		},
 		showNoCertClimberInfo(){
-			return this.currentClimber && this.currentClimber.certificate === "none";
+			return this.currentClimber && this.currentClimber.certificate === 'none';
 		},
 	},
 	methods: {
