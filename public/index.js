@@ -21,11 +21,11 @@ Vue.createApp({
 		},
 		submit: function () {
 			if (!this.idCode) return;
+			this.showInstructions = false;
 			this.isLoading = true;
 			this.fetchResult(this.idCode)
 				.then((data) => {
 					if (!data) return;
-					this.showInstructions = false;
 					this.currentClimber = data.success ? data : null;
 				})
 				.finally(()=>{this.isLoading = false;});

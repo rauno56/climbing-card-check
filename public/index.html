@@ -22,7 +22,7 @@
                 <div id="id-input">
                     <label>Isikukood</label>
                     <input type="text" v-model.trim="idCode" placeholder="12345678901">
-                    <button><img class="loading-spinner" v-if="isLoading" src="assets/Rolling-1s-200px.svg">{{isLoading ? '':'KONTROLLI'}}</button>
+                    <button :disabled="!this.idCode"><img class="loading-spinner" v-if="isLoading" src="assets/Rolling-1s-200px.svg">{{isLoading ? '':'KONTROLLI'}}</button>
                 </div>
             </form>
         </div>
