@@ -364,6 +364,10 @@ button.loading {}
     background: #284BB1;
     gap: 10px;
 }
+.loading-spinner{
+    height: 24px;
+    margin: 0 auto;
+}
 
 
 /* Mobile only*/
