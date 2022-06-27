@@ -146,20 +146,29 @@ button {
     background-color: white;
 }
 
-form {
+#form {
     margin: 24px;
     background: white;
     max-width: 500px;
     display: flex;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
-    border-radius: 16px;
+    border-radius: 24px;
     flex-direction: column;
     align-items: center;
     padding: 48px;
     gap: 32px;
 }
-
-form p {
+#form h1, #form h2{
+    color:#183642;
+    text-align: center;
+}
+#form h1{
+    font-size: 24px;
+}
+#form h2{
+    font-size: 16px;
+}
+#form p {
     font-weight: 400;
     font-size: 24px;
     line-height: 32px;
@@ -181,7 +190,7 @@ input {
     gap: 10px;
     background: #F1FAFF;
     border: 1px solid #183642;
-    border-radius: 16px;
+    border-radius: 24px;
     /* Inside auto layout */
     flex: none;
     flex-grow: 0;
@@ -198,7 +207,7 @@ input {
 button {
     padding: 16px 10px;
     background: linear-gradient(86.59deg, #26408B 22.05%, #279AF1 172.51%);
-    border-radius: 16px;
+    border-radius: 24px;
     font-weight: 600;
     line-height: 24px;
     text-align: center;
