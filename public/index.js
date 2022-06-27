@@ -50,10 +50,8 @@ Vue.createApp({
 					if (!data) return;
 					this.showInstructions = false;
 					this.currentClimber = data.success ? data : null;
-					this.isLoading = false;
-					console.log(this.currentClimber.certificate)
-					console.log(this.currentClimber.certificate !== "none")
-				});
+				})
+				.finally(()=>{this.isLoading = false;});
 		},
 		goBack: function () {
 			this.currentClimber = null;
