@@ -18,6 +18,10 @@
         <div id="left-background"></div>
         <div id="left" :class="currentClimber ? 'mobile-hide':''">
             <form id="form" @submit.prevent="submit">
+                <div>
+                    <h2>Eesti Ronimisliit</h2>
+                    <h1>Julgestajakaardi register</h1>
+                </div>
                 <p>Kontrolli ronimisõigust isikukoodi alusel</p>
                 <div id="id-input">
                     <label>Isikukood</label>
@@ -30,7 +34,9 @@
         <div id="right" class="desktop">
             <div class="centered-content">
                 <div v-if="!showInstructions" id="result">
-                    <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'RED' : 'GREEN' }} CARD</div>
+                    <div v-if="currentClimber"
+                        :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{
+                        currentClimber.certificate==='red' ? 'RED' : 'GREEN' }} CARD</div>
                     <div v-if="!currentClimber" class="header gray">ANDMEID EI LEITUD</div>
                     <div v-if="!currentClimber" class="no-info">
                         <p class="">Sellise isikukoodiga ronija andmeid ei leitud</p>
@@ -54,7 +60,7 @@
                             <p class="heading">EKSAMINEERIJA</p>
                             <p class="content">PEEDO</p>
                         </div>
-                        <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad osused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
+                        <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad oskused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
                     </div>
                 </div>
                 <!-- <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p> -->
@@ -121,7 +127,9 @@
             <div class="centered-content">
                 <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
                 <div id="result">
-                    <div v-if="currentClimber" :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{ currentClimber.certificate==='red' ? 'PUNANE' : 'ROHELINE' }} KAART</div>
+                    <div v-if="currentClimber"
+                        :class="(currentClimber.certificate==='red') ? 'header red':'header green'">{{
+                        currentClimber.certificate==='red' ? 'PUNANE' : 'ROHELINE' }} KAART</div>
                     <div v-if="!currentClimber" class="header gray">ANDMEID EI LEITUD</div>
                     <div v-if="!currentClimber" class="no-info">
                         <p class="">Sellise isikukoodiga ronija andmeid ei leitud</p>
@@ -145,7 +153,7 @@
                             <p class="heading">EKSAMINEERIJA</p>
                             <p class="content">PEEDO</p>
                         </div>
-                        <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad osused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
+                        <p class="description">Ronimisliit kinnitab, et ronijakaardi omanikul on piisavad oskused iseseisvaks ronimiseks ja julgestamiseks kaljuronimisseinal ülaltjulgestuses.</p>
                     </div>
                 </div>
                 <!-- <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p> -->
