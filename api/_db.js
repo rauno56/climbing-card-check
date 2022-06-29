@@ -99,8 +99,8 @@ const fetchOne = async (client, id) => {
 	assert(~filterColumnIdx, `Filter column not found. Looked for ${filterColumnHeader}`);
 	assert(~certificateColumnIdx, `Certificate column not found. Looked for ${certificateHeader}`);
 	assert(~nameColumnIdx, `Certificate column not found. Looked for ${nameHeader}`);
-	assert(~examinerColumnIdx, `Certificate column not found. Looked for ${examinerHeader}`);
-	assert(~examTimeColumnIdx, `Certificate column not found. Looked for ${examTimeHeader}`);
+	assert(~examinerColumnIdx, `Examiner column not found. Looked for ${examinerHeader}`);
+	assert(~examTimeColumnIdx, `Exam time column not found. Looked for ${examTimeHeader}`);
 
 	const filteredRows = data.filter((row) => {
 		return row[filterColumnIdx] === id;
