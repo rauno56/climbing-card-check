@@ -5,6 +5,13 @@ Vue.createApp({
 		idCode: '',
 		isLoading: false,
 	}),
+	computed: {
+    // a computed getter
+    isSubmitDisabled() {
+		console.log(this.idCode.length);
+			return !this.idCode || this.idCode.length !== 11
+		}
+	},
 	created() {
 
 	},
