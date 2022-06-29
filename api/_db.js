@@ -61,7 +61,7 @@ const fetchAllData = async (client) => {
 
 // raw input from the sheet => valueof CODE
 const normalizeCertificate = (rawCertificate) => {
-	rawCertificate = rawCertificate ?? '';
+	assert.equal(typeof rawCertificate, 'string', `Expected "rawCertificate" to be a string, got ${inspect(rawCertificate)}`);
 	const certificate = RAW_VALUE_TO_CODE[rawCertificate.toLowerCase()];
 
 	if (certificate) {
@@ -124,7 +124,7 @@ const fetchOne = async (client, id) => {
 	}
 
 	const row = filteredRows[0];
-	const certificate = normalizeCertificate(row[certificateColumnIdx]);
+	const certificate = normalizeCertificate(row[certificateColumnIdx] ?? '');
 
 	return {
 		id,
