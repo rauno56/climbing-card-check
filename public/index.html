@@ -25,6 +25,7 @@
                     <button><img class="loading-spinner" v-if="isLoading" src="assets/Rolling-1s-200px.svg">{{isLoading ? '':'KONTROLLI'}}</button>
                 </div>
             </form>
+            <div @click="toggleMobileInstructions" class="mobile" id="mobile-instructions-link"><a>Vajad abi? Loe kasutusjuhendit siit</a> <img src="assets/chevron-right.svg"></div>
         </div>
         <div id="right" class="desktop">
             <div class="centered-content">
@@ -86,7 +87,36 @@
                 </div>
             </div>
         </div>
-
+        <div v-if="showMobileInstructions" class="mobile" id="mobile-instructions">
+            <div @click="toggleMobileInstructions" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
+            <h1>Ronimisõiguse kontrolline</h1>
+            <div class="instructions">
+                <div class="row">
+                    <div class="row-number-wrapper">
+                        <div class="row-number">1</div>
+                    </div>
+                    <p>Küsi ronija isikut tõendavat dokumenti</p>
+                </div>
+                <div class="row">
+                    <div class="row-number-wrapper">
+                        <div class="row-number">2</div>
+                    </div>
+                    <p>Veendu, et tegemist on sama inimesega</p>
+                </div>
+                <div class="row">
+                    <div class="row-number-wrapper">
+                        <div class="row-number">3</div>
+                    </div>
+                    <p>Kontrolli registrist ronija isikukoodi</p>
+                </div>
+                <div class="row">
+                    <div class="row-number-wrapper">
+                        <div class="row-number">4</div>
+                    </div>
+                    <p>Veendu, et tal on õigus julgestada</p>
+                </div>
+        </div>
+        </div>
         <div id="mobile-results" v-if="currentClimber" class="mobile">
             <div class="centered-content">
                 <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
