@@ -6,10 +6,10 @@ Vue.createApp({
 		isLoading: false,
 	}),
 	computed: {
-    // a computed getter
-    isSubmitDisabled() {
-		console.log(this.idCode.length);
-			return !this.idCode || this.idCode.length !== 11
+		// a computed getter
+		isSubmitDisabled() {
+			console.log(this.idCode.length);
+			return !this.idCode || this.idCode.length !== 11;
 		}
 	},
 	created() {
@@ -28,14 +28,16 @@ Vue.createApp({
 		},
 		submit: function () {
 			if (!this.idCode) return;
-			this.showInstructions = false;
 			this.isLoading = true;
 			this.fetchResult(this.idCode)
 				.then((data) => {
 					if (!data) return;
 					this.currentClimber = data.success ? data : null;
 				})
-				.finally(()=>{this.isLoading = false;});
+				.finally(()=>{
+					this.showInstructions = false;
+					this.isLoading = false;
+				});
 		},
 		goBack: function () {
 			this.currentClimber = null;
