@@ -13,19 +13,22 @@ const CODE = {
 	GREEN: 'green',
 	RED: 'red',
 	INSTRUCTOR: 'instructor',
+	NONE: 'none',
 	UNKNOWN: 'unknown',
 };
 
 const RAW_VALUE_TO_CODE = {
 	roheline: CODE.GREEN,
 	punane: CODE.RED,
-	instruktor: CODE.INSTRUCTOR
+	instruktor: CODE.INSTRUCTOR,
+	'': CODE.NONE
 };
 
 const testCodes = [
 	'1',
 	'2',
 	'3',
+	'4',
 ];
 
 const assertValidId = (id) => {
@@ -58,8 +61,7 @@ const fetchAllData = async (client) => {
 
 // raw input from the sheet => valueof CODE
 const normalizeCertificate = (rawCertificate) => {
-	assert.equal(typeof rawCertificate, 'string', '"rawCertificate" required');
-
+	assert.equal(typeof rawCertificate, 'string', `Expected "rawCertificate" to be a string, got ${inspect(rawCertificate)}`);
 	const certificate = RAW_VALUE_TO_CODE[rawCertificate.toLowerCase()];
 
 	if (certificate) {
@@ -74,6 +76,8 @@ const normalizeCertificate = (rawCertificate) => {
 const filterColumnHeader = 'ID';
 const certificateHeader = 'Pädevus';
 const nameHeader = 'Nimi';
+const examinerHeader = 'Väljastaja nimi';
+const examTimeHeader = 'Väljastamise kp';
 
 const fetchOne = async (client, id) => {
 	assert(client instanceof google.auth.JWT, `"client" required got ${inspect(client)}`);
@@ -89,10 +93,14 @@ const fetchOne = async (client, id) => {
 	const filterColumnIdx = headers.indexOf(filterColumnHeader);
 	const certificateColumnIdx = headers.indexOf(certificateHeader);
 	const nameColumnIdx = headers.indexOf(nameHeader);
+	const examinerColumnIdx = headers.indexOf(examinerHeader);
+	const examTimeColumnIdx = headers.indexOf(examTimeHeader);
 
 	assert(~filterColumnIdx, `Filter column not found. Looked for ${filterColumnHeader}`);
 	assert(~certificateColumnIdx, `Certificate column not found. Looked for ${certificateHeader}`);
 	assert(~nameColumnIdx, `Certificate column not found. Looked for ${nameHeader}`);
+	assert(~examinerColumnIdx, `Examiner column not found. Looked for ${examinerHeader}`);
+	assert(~examTimeColumnIdx, `Exam time column not found. Looked for ${examTimeHeader}`);
 
 	const filteredRows = data.filter((row) => {
 		return row[filterColumnIdx] === id;
@@ -116,13 +124,15 @@ const fetchOne = async (client, id) => {
 	}
 
 	const row = filteredRows[0];
-	const certificate = normalizeCertificate(row[certificateColumnIdx]);
+	const certificate = normalizeCertificate(row[certificateColumnIdx] ?? '');
 
 	return {
 		id,
 		success: true,
 		certificate,
 		name: row[nameColumnIdx],
+		examiner: row[examinerColumnIdx] ?? null,
+		examTime: row[examTimeColumnIdx] ?? null,
 	};
 };
 
