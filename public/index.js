@@ -6,16 +6,12 @@ Vue.createApp({
 		isLoading: false,
 		showMobileInstructions: false,
 	}),
-	computed: {
-		// a computed getter
-		isSubmitDisabled() {
-			console.log(this.idCode.length);
-			return !this.idCode || this.idCode.length !== 11;
-		}
-	},
 	created() {
 	},
-	computed:{
+	computed: {
+		isSubmitDisabled() {
+			return !this.idCode || this.idCode.length !== 11;
+		},
 		resultCardHeaderContent(){
 			if(!this.currentClimber) return null;
 			switch (this.currentClimber.certificate) {
@@ -74,5 +70,5 @@ Vue.createApp({
 		toggleMobileInstructions: function (){
 			this.showMobileInstructions = !this.showMobileInstructions;
 		},
-	}
+	},
 }).mount('#app');
