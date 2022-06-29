@@ -49,12 +49,17 @@ Vue.createApp({
 				.then((data) => {
 					if (!data) return;
 					this.showInstructions = false;
-					this.currentClimber = data.success ? data : null;
+					this.currentClimber = data.success ? this.formatClimberData(data) : null;
 				})
 				.finally(()=>{this.isLoading = false;});
 		},
 		goBack: function () {
 			this.currentClimber = null;
+		},
+		formatClimberData: function (raw){
+			let result = raw;
+			result.formattedExamTime = result.examTime?.replaceAll('-','/');
+			return result;
 		}
 	}
 }).mount('#app');
