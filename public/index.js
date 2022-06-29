@@ -6,6 +6,13 @@ Vue.createApp({
 		isLoading: false,
 		showMobileInstructions: false,
 	}),
+	computed: {
+		// a computed getter
+		isSubmitDisabled() {
+			console.log(this.idCode.length);
+			return !this.idCode || this.idCode.length !== 11;
+		}
+	},
 	created() {
 
 	},
@@ -26,10 +33,12 @@ Vue.createApp({
 			this.fetchResult(this.idCode)
 				.then((data) => {
 					if (!data) return;
-					this.showInstructions = false;
 					this.currentClimber = data.success ? data : null;
 				})
-				.finally(()=>{this.isLoading = false;});
+				.finally(()=>{
+					this.showInstructions = false;
+					this.isLoading = false;
+				});
 		},
 		goBack: function () {
 			this.currentClimber = null;
