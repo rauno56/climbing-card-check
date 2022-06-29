@@ -52,7 +52,7 @@ Vue.createApp({
 			this.fetchResult(this.idCode)
 				.then((data) => {
 					if (!data) return;
-          this.currentClimber = data.success ? this.formatClimberData(data) : null;
+					this.currentClimber = data.success ? this.formatClimberData(data) : null;
 				})
 				.finally(()=>{
 					this.showInstructions = false;
@@ -66,7 +66,7 @@ Vue.createApp({
 			let result = raw;
 			result.formattedExamTime = result.examTime?.replaceAll('-','/');
 			return result;
-    },
+		},
 		toggleMobileInstructions: function (){
 			this.showMobileInstructions = !this.showMobileInstructions;
 		},
