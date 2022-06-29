@@ -4,6 +4,7 @@ Vue.createApp({
 		currentClimber: null,
 		idCode: '',
 		isLoading: false,
+		showMobileInstructions: false,
 	}),
 	computed: {
 		// a computed getter
@@ -41,6 +42,9 @@ Vue.createApp({
 		},
 		goBack: function () {
 			this.currentClimber = null;
+		},
+		toggleMobileInstructions: function (){
+			this.showMobileInstructions = !this.showMobileInstructions;
 		}
 	}
 }).mount('#app');
