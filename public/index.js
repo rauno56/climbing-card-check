@@ -25,6 +25,19 @@ Vue.createApp({
 				return null;
 			}
 		},
+		certificateDescription(){
+			if(!this.currentClimber) return null;
+			switch (this.currentClimber.certificate) {
+			case 'green':
+				return 'Sellel isikul on õigus iseseisvalt ülaltjulgestuses ronida ja julgestada.';
+			case 'red':
+				return 'Sellel isikul on õigus iseseisvalt altjulgestuses ronida ja julgestada.';
+			case 'expired':
+				return 'Selle isiku julgestajakaart on aegnud. Sellel isikul ei ole õigust iseseisvalt ronida enne kaardi uuendamist.';
+			default:
+				return 'Seda isikukoodi ei ole registrisse lisatud. Sellel isikul ei ole õigust iseseisvalt ronida.';
+			}
+		},
 		showNoInfo(){
 			return !this.currentClimber;
 		},
@@ -65,10 +78,17 @@ Vue.createApp({
 		formatClimberData: function (raw){
 			let result = raw;
 			result.formattedExamTime = result.examTime?.replaceAll('-','/');
+			result.certificate = this.invalidateCertificateIfExpired(result)
 			return result;
 		},
 		toggleMobileInstructions: function (){
 			this.showMobileInstructions = !this.showMobileInstructions;
+		},
+		invalidateCertificateIfExpired: function (climberData){
+			if(new Date(climberData.expiryTime) < Date.now()){
+				return 'expired'
+			}
+			return climberData.certificate;
 		},
 	},
 }).mount('#app');
