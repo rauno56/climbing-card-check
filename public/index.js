@@ -3,6 +3,7 @@ Vue.createApp({
 		showInstructions: true,
 		currentClimber: null,
 		idCode: '',
+		submittedIdCode: '',
 		isLoading: false,
 		showMobileInstructions: false,
 	}),
@@ -38,15 +39,24 @@ Vue.createApp({
 				return 'Seda isikukoodi ei ole registrisse lisatud. Sellel isikul ei ole õigust iseseisvalt ronida.';
 			}
 		},
-		showNoInfo(){
-			return !this.currentClimber;
+		isClimberCertified(){
+			return this.currentClimber 
+			&& this.currentClimber.certificate !=='none' 
+			&& this.currentClimber.certificate !== 'expired';
 		},
-		showClimberInfo(){
-			return this.currentClimber && this.currentClimber.certificate !== 'none';
+		showNoAccessResult(){
+			return !this.showInstructions
+			&& (!this.currentClimber 
+		  	|| this.currentClimber.certificate =='none' 
+			|| this.currentClimber.certificate == 'expired');
 		},
-		showNoCertClimberInfo(){
-			return this.currentClimber && this.currentClimber.certificate === 'none';
+		showMobileResults(){
+			return this.isClimberCertified || this.showNoAccessResult;
 		},
+		noAccessReason(){
+			if(this.currentClimber?.certificate == 'expired') return 'Selle isiku julgestajakaart on aegnud.';
+			return 'Seda isikukoodi ei ole registrisse lisatud.'
+		}
 	},
 	methods: {
 		fetchResult: function (id) {
@@ -61,6 +71,7 @@ Vue.createApp({
 		},
 		submit: function () {
 			if (!this.idCode) return;
+			this.submittedIdCode = this.idCode;
 			this.isLoading = true;
 			this.fetchResult(this.idCode)
 				.then((data) => {
@@ -74,6 +85,7 @@ Vue.createApp({
 		},
 		goBack: function () {
 			this.currentClimber = null;
+			this.showInstructions = true;
 		},
 		formatClimberData: function (raw){
 			let result = raw;
@@ -85,7 +97,7 @@ Vue.createApp({
 			this.showMobileInstructions = !this.showMobileInstructions;
 		},
 		invalidateCertificateIfExpired: function (climberData){
-			if(new Date(climberData.expiryTime) < Date.now()){
+			if(climberData.expiryTime && new Date(climberData.expiryTime) < Date.now()){
 				return 'expired'
 			}
 			return climberData.certificate;

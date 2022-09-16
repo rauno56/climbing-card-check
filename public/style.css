@@ -282,19 +282,29 @@ button.loading {}
     background: linear-gradient(89.14deg, #101010 28.5%, #5a5a5a 131.48%);
 }
 
-.no-info {
-    font-size: 24px;
-    line-height: 32px;
-    text-align: center;
-    color: #6F6F6F;
-    padding: 0px 32px 24px;
+#no-access-result{
     display: flex;
-    flex-direction: column;
+flex-direction: column;
+align-items: center;
+padding: 0px;
+gap: 32px;
+    text-align: center;
 }
-
-.no-info img {
-    padding-left: 36px;
-    padding-right: 36px;
+#no-access-result h1{
+    font-weight: 700;
+    color:#DB4141
+}
+.no-access-reason{
+    font-size: 20px;
+}
+.no-access-explanation {
+    display: flex;
+    text-align: left;
+    gap: 6px;
+    align-items: center;
+}
+.no-access-explanation img{
+    height: 1.5em;
 }
 
 #result-content {
