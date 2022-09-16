@@ -78,7 +78,7 @@ Vue.createApp({
 		formatClimberData: function (raw){
 			let result = raw;
 			result.formattedExamTime = result.examTime?.replaceAll('-','/');
-			result.certificate = this.invalidateCertificateIfExpired(result)
+			result.certificate = this.invalidateCertificateIfExpired(result);
 			return result;
 		},
 		toggleMobileInstructions: function (){
@@ -86,7 +86,7 @@ Vue.createApp({
 		},
 		invalidateCertificateIfExpired: function (climberData){
 			if(new Date(climberData.expiryTime) < Date.now()){
-				return 'expired'
+				return 'expired';
 			}
 			return climberData.certificate;
 		},
