@@ -46,8 +46,8 @@ Vue.createApp({
 		},
 		showNoAccessResult(){
 			return !this.showInstructions
-			&& (!this.currentClimber 
-		  	|| this.currentClimber.certificate =='none' 
+			&& (!this.currentClimber
+			|| this.currentClimber.certificate =='none' 
 			|| this.currentClimber.certificate == 'expired');
 		},
 		showMobileResults(){
@@ -55,7 +55,7 @@ Vue.createApp({
 		},
 		noAccessReason(){
 			if(this.currentClimber?.certificate == 'expired') return 'Selle isiku julgestajakaart on aegnud.';
-			return 'Seda isikukoodi ei ole registrisse lisatud.'
+			return 'Seda isikukoodi ei ole registrisse lisatud.';
 		}
 	},
 	methods: {
@@ -90,15 +90,15 @@ Vue.createApp({
 		formatClimberData: function (raw){
 			let result = raw;
 			result.formattedExamTime = result.examTime?.replaceAll('-','/');
-			result.certificate = this.invalidateCertificateIfExpired(result)
+			result.certificate = this.invalidateCertificateIfExpired(result);
 			return result;
 		},
 		toggleMobileInstructions: function (){
 			this.showMobileInstructions = !this.showMobileInstructions;
 		},
 		invalidateCertificateIfExpired: function (climberData){
-			if(climberData.expiryTime && new Date(climberData.expiryTime) < Date.now()){
-				return 'expired'
+			if(new Date(climberData.expiryTime) < Date.now()){
+				return 'expired';
 			}
 			return climberData.certificate;
 		},
