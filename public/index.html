@@ -45,15 +45,15 @@
                                 <p class="heading">TÄISNIMI</p>
                                 <p class="content">{{currentClimber.name}}</p>
                             </div>
-                           <div class="row">
-                                <p class="heading">EKSAMI AEG</p>
-                                <p class="content">{{currentClimber.formattedExamTime}}</p>
-                            </div>
                             <div class="row">
-                                <p class="heading">EKSAMINEERIJA</p>
-                                <p class="content">{{currentClimber.examiner}}</p>
+                                <p class="heading">KEHTIV KUNI</p>
+                                <p class="content">{{currentClimber.expiryTime?.replaceAll('-','/')}}</p>
                             </div>
                             <p class="description">{{certificateDescription}}</p>
+                            <div class="additional-info">
+                                <p>EKSAMI AEG: {{currentClimber.formattedExamTime}}</p>
+                                <p>EKSAMINEERIJA: {{currentClimber.examiner}}</p>
+                            </div>
                         </div>
                     </div>
                     <p v-if="!showInstructions" class="warning">Veendu, et ronija on isikut tõendava dokumendi omanik</p>
@@ -142,14 +142,14 @@
                                 <p class="content">{{currentClimber.name}}</p>
                             </div>
                             <div class="row">
-                                <p class="heading">EKSAMI AEG</p>
-                                <p class="content">{{currentClimber.examTime?.replaceAll('-','/')}}</p>
-                            </div>
-                            <div class="row">
-                                <p class="heading">EKSAMINEERIJA</p>
-                                <p class="content">{{currentClimber.examiner}}</p>
+                                <p class="heading">KEHTIV KUNI</p>
+                                <p class="content">{{currentClimber.expiryTime?.replaceAll('-','/')}}</p>
                             </div>
                             <p class="description">{{certificateDescription}}</p>
+                            <div class="additional-info">
+                                <p>EKSAMI AEG: {{currentClimber.formattedExamTime}}</p>
+                                <p>EKSAMINEERIJA: {{currentClimber.examiner}}</p>
+                            </div>
                         </div>
                     </template>
                     
