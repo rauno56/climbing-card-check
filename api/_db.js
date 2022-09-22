@@ -78,6 +78,7 @@ const certificateHeader = 'Pädevus';
 const nameHeader = 'Nimi';
 const examinerHeader = 'Väljastaja nimi';
 const examTimeHeader = 'Väljastamise kp';
+const expiryTimeHeader = 'Aegumise kp';
 
 const fetchOne = async (client, id) => {
 	assert(client instanceof google.auth.JWT, `"client" required got ${inspect(client)}`);
@@ -95,12 +96,14 @@ const fetchOne = async (client, id) => {
 	const nameColumnIdx = headers.indexOf(nameHeader);
 	const examinerColumnIdx = headers.indexOf(examinerHeader);
 	const examTimeColumnIdx = headers.indexOf(examTimeHeader);
+	const expiryTimeColumnIdx = headers.indexOf(expiryTimeHeader);
 
 	assert(~filterColumnIdx, `Filter column not found. Looked for ${filterColumnHeader}`);
 	assert(~certificateColumnIdx, `Certificate column not found. Looked for ${certificateHeader}`);
 	assert(~nameColumnIdx, `Certificate column not found. Looked for ${nameHeader}`);
 	assert(~examinerColumnIdx, `Examiner column not found. Looked for ${examinerHeader}`);
 	assert(~examTimeColumnIdx, `Exam time column not found. Looked for ${examTimeHeader}`);
+	assert(~expiryTimeColumnIdx, `Expiry time column not found. Looked for ${expiryTimeHeader}`);
 
 	const filteredRows = data.filter((row) => {
 		return row[filterColumnIdx] === id;
@@ -133,6 +136,7 @@ const fetchOne = async (client, id) => {
 		name: row[nameColumnIdx],
 		examiner: row[examinerColumnIdx] ?? null,
 		examTime: row[examTimeColumnIdx] ?? null,
+		expiryTime: row[expiryTimeColumnIdx] ?? null,
 	};
 };
 
