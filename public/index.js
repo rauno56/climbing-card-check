@@ -35,7 +35,7 @@ Vue.createApp({
 			case 'expired':
 				return 'Selle isiku julgestajakaart on aegnud. Tal ei ole õigust iseseisvalt ronida enne kaardi uuendamist.';
 			default:
-				return 'Seda isikukoodi ei ole registrisse lisatud. Sellel isikul ei ole õigust iseseisvalt ronida.';
+				return 'Seda isikukoodi ei ole registrisse lisatud. Tal ei ole õigust iseseisvalt ronida.';
 			}
 		},
 		showNoInfo(){
