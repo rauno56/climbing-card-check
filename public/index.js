@@ -5,6 +5,7 @@ Vue.createApp({
 		idCode: '',
 		isLoading: false,
 		showMobileInstructions: false,
+		timer: ''
 	}),
 	created() {
 	},
@@ -70,6 +71,7 @@ Vue.createApp({
 				.finally(()=>{
 					this.showInstructions = false;
 					this.isLoading = false;
+					this.timer = setInterval(this.resetState, 180000);
 				});
 		},
 		goBack: function () {
@@ -90,5 +92,9 @@ Vue.createApp({
 			}
 			return climberData.certificate;
 		},
+		resetState() {
+			clearInterval(this.timer);
+    		Object.assign(this.$data, this.$options.data.call(this));
+  		},
 	},
 }).mount('#app');
