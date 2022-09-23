@@ -34,10 +34,13 @@ Vue.createApp({
 			case 'red':
 				return 'Sellel isikul on õigus iseseisvalt altjulgestuses ronida ja julgestada.';
 			case 'expired':
-				return 'Selle isiku julgestajakaart on aegnud. Sellel isikul ei ole õigust iseseisvalt ronida enne kaardi uuendamist.';
+				return 'Selle isiku julgestajakaart on aegnud. Tal ei ole õigust iseseisvalt ronida enne kaardi uuendamist.';
 			default:
-				return 'Seda isikukoodi ei ole registrisse lisatud. Sellel isikul ei ole õigust iseseisvalt ronida.';
+				return 'Seda isikukoodi ei ole registrisse lisatud. Tal ei ole õigust iseseisvalt ronida.';
 			}
+		},
+		showNoInfo(){
+			return !this.currentClimber;
 		},
 		isClimberCertified(){
 			return this.currentClimber 
