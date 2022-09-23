@@ -94,7 +94,7 @@ Vue.createApp({
 		},
 		resetState() {
 			clearInterval(this.timer);
-    		Object.assign(this.$data, this.$options.data.call(this));
-  		},
+			Object.assign(this.$data, this.$options.data.call(this));
+		},
 	},
 }).mount('#app');
