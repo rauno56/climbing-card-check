@@ -290,10 +290,10 @@ button.loading {}
 }
 #no-access-result{
     display: flex;
-flex-direction: column;
-align-items: center;
-padding: 0px;
-gap: 32px;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    gap: 32px;
     text-align: center;
 }
 #no-access-result h1{
