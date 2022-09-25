@@ -34,6 +34,7 @@
         <div id="right" class="desktop">
             <div class="centered-content">
                 <template v-if="isClimberCertified">
+                <template v-if="isClimberCertified">
                 <div v-if="!showInstructions" id="result">
                         <div :class="currentClimber.certificate + ' header'">{{resultCardHeaderContent}}</div>
                         <div id="result-content">
@@ -165,7 +166,7 @@
                     </div>
                 </div>
                 <!-- <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p> -->
-                <p v-if="!showInstructions && isClimberCertified" class="warning">Veendu, et ronija on isikut tõendava dokumendi omanik</p>
+                <p v-if="!showInstructions && isClimberCertified && isClimberCertified" class="warning">Veendu, et ronija on isikut tõendava dokumendi omanik</p>
             </div>
         </div>
     </div>
