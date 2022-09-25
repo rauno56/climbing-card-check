@@ -1,3 +1,5 @@
+const resetTimeoutLength = 180000;
+
 Vue.createApp({
 	data: () => ({
 		showInstructions: true,
@@ -5,7 +7,7 @@ Vue.createApp({
 		idCode: '',
 		isLoading: false,
 		showMobileInstructions: false,
-		timer: ''
+		timer: null
 	}),
 	created() {
 	},
@@ -49,6 +51,13 @@ Vue.createApp({
 			return this.currentClimber && this.currentClimber.certificate === 'none';
 		},
 	},
+	watch:{
+		idCode(){
+			if(!this.timer) return;
+			clearTimeout(this.timer);
+			this.timer = setTimeout(this.resetState, resetTimeoutLength);
+		}
+	},
 	methods: {
 		fetchResult: function (id) {
 			return fetch(`/api/check?id=${id}`)
@@ -71,7 +80,7 @@ Vue.createApp({
 				.finally(()=>{
 					this.showInstructions = false;
 					this.isLoading = false;
-					this.timer = setInterval(this.resetState, 180000);
+					this.timer = setTimeout(this.resetState, resetTimeoutLength);
 				});
 		},
 		goBack: function () {
@@ -93,7 +102,6 @@ Vue.createApp({
 			return climberData.certificate;
 		},
 		resetState() {
-			clearInterval(this.timer);
 			Object.assign(this.$data, this.$options.data.call(this));
 		},
 	},
