@@ -281,13 +281,19 @@ button.loading {}
     justify-content: center;
     background: linear-gradient(89.14deg, #101010 28.5%, #5a5a5a 131.48%);
 }
-
+.additional-info{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+}
 #no-access-result{
     display: flex;
-flex-direction: column;
-align-items: center;
-padding: 0px;
-gap: 32px;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    gap: 32px;
     text-align: center;
 }
 #no-access-result h1{
