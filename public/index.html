@@ -16,7 +16,7 @@
 <body>
     <div id="app">
         <div id="left-background"></div>
-        <div id="left" :class="currentClimber || showNoAccessResult ? 'desktop':''">
+        <div id="left" :class="currentClimber ? 'desktop':''">
             <form id="form" @submit.prevent="submit">
                 <div>
                     <h2>Eesti Ronimisliit</h2>
@@ -61,7 +61,7 @@
                 </template>
                 <div v-if="currentClimber && !isClimberCertified" id="no-access-result">
                     <h1>Ligipääs keelatud</h1>
-                    <p>ISIKUKOOD: <b>{{submittedIdCode}}</b></p>
+                    <p>ISIKUKOOD: <b>{{idCode}}</b></p>
                     <p class="no-access-reason">Põhjus: {{noAccessReason}}</p>
                     <img src="assets/NoAccesToWall.svg"/>
                     <div class="no-access-explanation">

@@ -2,7 +2,6 @@ Vue.createApp({
 	data: () => ({
 		currentClimber: null,
 		idCode: '',
-		submittedIdCode: '',
 		isLoading: false,
 		showMobileInstructions: false,
 	}),
@@ -44,38 +43,39 @@ Vue.createApp({
 		isClimberCertified(){
 			return this.currentClimber && ['green', 'red', 'instructor'].includes(this.currentClimber.certificate);
 		},
-		showNoAccessResult(){
-			return this.currentClimber && (
-				this.currentClimber.certificate == 'none' || this.currentClimber.certificate == 'expired'
-			);
-		},
-		showMobileResults(){
-			return this.isClimberCertified || this.showNoAccessResult;
-		},
 		noAccessReason(){
 			if(this.currentClimber?.certificate == 'expired') return 'Selle isiku julgestajakaart on aegnud.';
 			return 'Seda isikukoodi ei ole registrisse lisatud.';
 		}
 	},
 	methods: {
-		fetchResult: function (id) {
+		fetchClimberData: function (id) {
 			return fetch(`/api/check?id=${id}`)
 				.then((response) => {
+					console.log(response);
 					if (!response.ok) {
-						this.currentClimber = null;
-						return;
+						throw new Error('Request error: ' + response.statusText);
 					}
 					return response.json();
+				}).then((response) => {
+					if (!response) {
+						return null;
+					}
+					if (response.success) {
+						return this.formatClimberData(response);
+					}
+					return {
+						id,
+						certificate: 'none',
+					};
 				});
 		},
 		submit: function () {
 			if (!this.idCode) return;
-			this.submittedIdCode = this.idCode;
 			this.isLoading = true;
-			this.fetchResult(this.idCode)
+			this.fetchClimberData(this.idCode)
 				.then((data) => {
-					if (!data) return;
-					this.currentClimber = data.success ? this.formatClimberData(data) : null;
+					this.currentClimber = data;
 				})
 				.finally(()=>{
 					this.isLoading = false;
