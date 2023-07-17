@@ -1,6 +1,5 @@
 Vue.createApp({
 	data: () => ({
-		showInstructions: true,
 		currentClimber: null,
 		idCode: '',
 		submittedIdCode: '',
@@ -43,15 +42,12 @@ Vue.createApp({
 			return !this.currentClimber;
 		},
 		isClimberCertified(){
-			return this.currentClimber
-				&& this.currentClimber.certificate !=='none'
-				&& this.currentClimber.certificate !== 'expired';
+			return this.currentClimber && ['green', 'red', 'instructor'].includes(this.currentClimber.certificate);
 		},
 		showNoAccessResult(){
-			return !this.showInstructions
-				&& (!this.currentClimber
-				|| this.currentClimber.certificate =='none'
-				|| this.currentClimber.certificate == 'expired');
+			return this.currentClimber && (
+				this.currentClimber.certificate == 'none' || this.currentClimber.certificate == 'expired'
+			);
 		},
 		showMobileResults(){
 			return this.isClimberCertified || this.showNoAccessResult;
@@ -82,13 +78,12 @@ Vue.createApp({
 					this.currentClimber = data.success ? this.formatClimberData(data) : null;
 				})
 				.finally(()=>{
-					this.showInstructions = false;
 					this.isLoading = false;
 				});
 		},
 		goBack: function () {
 			this.currentClimber = null;
-			this.showInstructions = true;
+			this.showMobileInstructions = false;
 		},
 		formatClimberData: function (raw){
 			let result = raw;

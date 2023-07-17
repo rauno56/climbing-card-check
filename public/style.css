@@ -417,9 +417,6 @@ button.loading {}
         padding-top: 48px;
         justify-content: space-between;
     }
-    .mobile-hide {
-        display: none !important;
-    }
     #mobile-results {
         background: #F4F7FF;
         z-index: 9999;
