@@ -25,16 +25,17 @@
                 <p>Kontrolli ronimisõigust isikukoodi alusel</p>
                 <div id="id-input">
                     <label>Isikukood</label>
-                    <input type="text" v-model.trim="idCode" placeholder="12345678901">
-                    <button :disabled="isSubmitDisabled"><img class="loading-spinner" v-if="isLoading" src="assets/Rolling-1s-200px.svg">{{isLoading ? '':'KONTROLLI'}}</button>
+                    <input type="text" v-model.trim="idCode" placeholder="12345678901"/>
+                    <button :disabled="isSubmitDisabled"><img class="loading-spinner" v-if="isLoading" src="assets/Rolling-1s-200px.svg"/>{{isLoading ? '':'KONTROLLI'}}</button>
                 </div>
             </form>
-            <div @click="toggleMobileInstructions" class="mobile" id="mobile-instructions-link"><a>Vajad abi? Loe kasutusjuhendit siit</a> <img src="assets/chevron-right.svg"></div>
+            <div @click="toggleMobileInstructions" class="mobile" id="mobile-instructions-link"><a>Vajad abi? Loe kasutusjuhendit siit</a> <img src="assets/chevron-right.svg"/></div>
         </div>
+
         <div id="right" class="desktop">
             <div class="centered-content">
                 <template v-if="isClimberCertified">
-                <div v-if="!showInstructions" id="result">
+                    <div v-if="!showInstructions" id="result">
                         <div :class="currentClimber.certificate + ' header'">{{resultCardHeaderContent}}</div>
                         <div id="result-content">
                             <div class="row">
@@ -62,9 +63,9 @@
                     <h1>Ligipääs keelatud</h1>
                     <p>ISIKUKOOD: <b>{{submittedIdCode}}</b></p>
                     <p class="no-access-reason">Põhjus: {{noAccessReason}}</p>
-                    <img src="assets/NoAccesToWall.svg">
+                    <img src="assets/NoAccesToWall.svg"/>
                     <div class="no-access-explanation">
-                        <img src="assets/exclamation.svg">
+                        <img src="assets/exclamation.svg"/>
                         <p> Sellel isikul ei ole lubatud seinal viibida ilma instruktorita.</p>
                     </div>
                 </div>
@@ -96,8 +97,9 @@
                 </div>
             </div>
         </div>
+
         <div v-if="showMobileInstructions" class="mobile" id="mobile-instructions">
-            <div @click="toggleMobileInstructions" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
+            <div @click="toggleMobileInstructions" class="back-button"><img src="assets/chevron-left.svg"/>Tagasi</div>
             <h1>Ronimisõiguse kontrolline</h1>
             <div class="instructions">
                 <div class="row">
@@ -124,11 +126,12 @@
                     </div>
                     <p>Veendu, et tal on õigus julgestada</p>
                 </div>
+            </div>
         </div>
-        </div>
+
         <div id="mobile-results" v-if="showMobileResults" class="mobile">
             <div class="centered-content">
-                <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
+                <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg"/>Tagasi</div>
                 <div id="result">
                     <template v-if="isClimberCertified">
                         <div  :class="currentClimber.certificate + ' header'">{{ resultCardHeaderContent }}</div>
@@ -152,7 +155,6 @@
                             </div>
                         </div>
                     </template>
-                    
                 </div>
                 <div v-if="showNoAccessResult" id="no-access-result">
                     <h1>Ligipääs keelatud</h1>

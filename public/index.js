@@ -43,15 +43,15 @@ Vue.createApp({
 			return !this.currentClimber;
 		},
 		isClimberCertified(){
-			return this.currentClimber 
-			&& this.currentClimber.certificate !=='none' 
-			&& this.currentClimber.certificate !== 'expired';
+			return this.currentClimber
+				&& this.currentClimber.certificate !=='none'
+				&& this.currentClimber.certificate !== 'expired';
 		},
 		showNoAccessResult(){
 			return !this.showInstructions
-			&& (!this.currentClimber
-			|| this.currentClimber.certificate =='none' 
-			|| this.currentClimber.certificate == 'expired');
+				&& (!this.currentClimber
+				|| this.currentClimber.certificate =='none'
+				|| this.currentClimber.certificate == 'expired');
 		},
 		showMobileResults(){
 			return this.isClimberCertified || this.showNoAccessResult;
