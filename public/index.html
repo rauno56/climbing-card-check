@@ -16,7 +16,7 @@
 <body>
     <div id="app">
         <div id="left-background"></div>
-        <div id="left" :class="currentClimber || showNoAccessResult ? 'mobile-hide':''">
+        <div id="left" :class="currentClimber ? 'desktop':''">
             <form id="form" @submit.prevent="submit">
                 <div>
                     <h2>Eesti Ronimisliit</h2>
@@ -25,16 +25,17 @@
                 <p>Kontrolli ronimisõigust isikukoodi alusel</p>
                 <div id="id-input">
                     <label>Isikukood</label>
-                    <input type="text" v-model.trim="idCode" placeholder="12345678901">
-                    <button :disabled="isSubmitDisabled"><img class="loading-spinner" v-if="isLoading" src="assets/Rolling-1s-200px.svg">{{isLoading ? '':'KONTROLLI'}}</button>
+                    <input type="text" v-model.trim="idCode" placeholder="12345678901"/>
+                    <button :disabled="isSubmitDisabled"><img class="loading-spinner" v-if="isLoading" src="assets/Rolling-1s-200px.svg"/>{{isLoading ? '':'KONTROLLI'}}</button>
                 </div>
             </form>
-            <div @click="toggleMobileInstructions" class="mobile" id="mobile-instructions-link"><a>Vajad abi? Loe kasutusjuhendit siit</a> <img src="assets/chevron-right.svg"></div>
+            <div @click="toggleMobileInstructions" class="mobile" id="mobile-instructions-link"><a>Vajad abi? Loe kasutusjuhendit siit</a> <img src="assets/chevron-right.svg"/></div>
         </div>
+
         <div id="right" class="desktop">
             <div class="centered-content">
                 <template v-if="isClimberCertified">
-                <div v-if="!showInstructions" id="result">
+                    <div id="result">
                         <div :class="currentClimber.certificate + ' header'">{{resultCardHeaderContent}}</div>
                         <div id="result-content">
                             <div class="row">
@@ -56,19 +57,19 @@
                             </div>
                         </div>
                     </div>
-                    <p v-if="!showInstructions" class="warning">Veendu, et ronija on isikut tõendava dokumendi omanik</p>
+                    <p class="warning">Veendu, et ronija on isikut tõendava dokumendi omanik</p>
                 </template>
-                <div v-if="showNoAccessResult" id="no-access-result">
+                <div v-if="currentClimber && !isClimberCertified" id="no-access-result">
                     <h1>Ligipääs keelatud</h1>
-                    <p>ISIKUKOOD: <b>{{submittedIdCode}}</b></p>
+                    <p>ISIKUKOOD: <b>{{idCode}}</b></p>
                     <p class="no-access-reason">Põhjus: {{noAccessReason}}</p>
-                    <img src="assets/NoAccesToWall.svg">
+                    <img src="assets/NoAccesToWall.svg"/>
                     <div class="no-access-explanation">
-                        <img src="assets/exclamation.svg">
+                        <img src="assets/exclamation.svg"/>
                         <p> Sellel isikul ei ole lubatud seinal viibida ilma instruktorita.</p>
                     </div>
                 </div>
-                <div v-if="showInstructions" class="instructions">
+                <div v-if="!currentClimber" class="instructions">
                     <div class="row">
                         <div class="row-number-wrapper">
                             <div class="row-number">1</div>
@@ -96,8 +97,9 @@
                 </div>
             </div>
         </div>
-        <div v-if="showMobileInstructions" class="mobile" id="mobile-instructions">
-            <div @click="toggleMobileInstructions" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
+
+        <div v-if="showMobileInstructions && !currentClimber" class="mobile" id="mobile-instructions">
+            <div @click="toggleMobileInstructions" class="back-button"><img src="assets/chevron-left.svg"/>Tagasi</div>
             <h1>Ronimisõiguse kontrolline</h1>
             <div class="instructions">
                 <div class="row">
@@ -124,14 +126,15 @@
                     </div>
                     <p>Veendu, et tal on õigus julgestada</p>
                 </div>
+            </div>
         </div>
-        </div>
-        <div id="mobile-results" v-if="showMobileResults" class="mobile">
+
+        <div id="mobile-results" v-if="currentClimber" class="mobile">
             <div class="centered-content">
-                <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg">Tagasi</div>
-                <div id="result">
-                    <template v-if="isClimberCertified">
-                        <div  :class="currentClimber.certificate + ' header'">{{ resultCardHeaderContent }}</div>
+                <div @click="goBack" class="back-button"><img src="assets/chevron-left.svg"/>Tagasi</div>
+                <template v-if="isClimberCertified">
+                    <div id="result">
+                        <div :class="currentClimber.certificate + ' header'">{{resultCardHeaderContent}}</div>
                         <div id="result-content">
                             <div class="row">
                                 <p class="heading">ISIKUKOOD</p>
@@ -151,21 +154,19 @@
                                 <p>EKSAMINEERIJA: {{currentClimber.examiner}}</p>
                             </div>
                         </div>
-                    </template>
-                    
-                </div>
-                <div v-if="showNoAccessResult" id="no-access-result">
+                    </div>
+                    <p class="warning">Veendu, et ronija on isikut tõendava dokumendi omanik</p>
+                </template>
+                <div v-if="currentClimber && !isClimberCertified" id="no-access-result">
                     <h1>Ligipääs keelatud</h1>
                     <p>ISIKUKOOD: <b>{{idCode}}</b></p>
                     <p class="no-access-reason">Põhjus: {{noAccessReason}}</p>
-                    <img src="assets/NoAccesToWall.svg">
+                    <img src="assets/NoAccesToWall.svg"/>
                     <div class="no-access-explanation">
-                        <img src="assets/exclamation.svg">
+                        <img src="assets/exclamation.svg"/>
                         <p> Sellel isikul ei ole lubatud seinal viibida ilma instruktorita.</p>
                     </div>
                 </div>
-                <!-- <p v-if="!showInstructions" class="warning">Validate the card information with the ID data of the climber</p> -->
-                <p v-if="!showInstructions && isClimberCertified && isClimberCertified" class="warning">Veendu, et ronija on isikut tõendava dokumendi omanik</p>
             </div>
         </div>
     </div>
