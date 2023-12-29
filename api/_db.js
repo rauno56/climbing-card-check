@@ -24,13 +24,6 @@ const RAW_VALUE_TO_CODE = {
 	'': CODE.NONE
 };
 
-const testCodes = [
-	'1',
-	'2',
-	'3',
-	'4',
-];
-
 const assertValidId = (id) => {
 	assert.equal(typeof id, 'string', 'Expected ID to be a string');
 	assert.match(id, /[0-9]{11}/, 'Expected ID to consist of 11 digits');
@@ -72,6 +65,28 @@ const normalizeCertificate = (rawCertificate) => {
 	return CODE.UNKNOWN;
 };
 
+// Forms provides TS that is in US format, normalize that to the same format as others
+const transformFormFillTime = (rawValue) => {
+	if (!rawValue || typeof rawValue !== 'string') {
+		return null;
+	}
+	const [MM, DD, YYYY] = rawValue.replace(/ .*$/, '').split('/');
+	return `${YYYY}-${MM}-${DD}`;
+};
+
+const S = 1000;
+const MIN = 60 * S;
+const HR = 60 * MIN;
+const D = 24 * HR;
+const getExpiriTimeFromFormFillTime = (normDate) => {
+	if (!normDate || typeof normDate !== 'string') {
+		return null;
+	}
+	// Add 6 weeks
+	const exp = Date.parse(normDate) + 6 * 7 * D;
+	return (new Date(exp)).toISOString().replace(/T.*$/, '');
+};
+
 // have to either map by the position or header name, doing the latter
 const filterColumnHeader = 'ID';
 const certificateHeader = 'Pädevus';
@@ -79,13 +94,12 @@ const nameHeader = 'Nimi';
 const examinerHeader = 'Väljastaja nimi';
 const examTimeHeader = 'Väljastamise kp';
 const expiryTimeHeader = 'Aegumise kp';
+const formFillTimeHeader = 'Vormi täitmise ts';
 
 const fetchOne = async (client, id) => {
 	assert(client instanceof google.auth.JWT, `"client" required got ${inspect(client)}`);
 
-	if (!testCodes.includes(id)) {
-		assertValidId(id);
-	}
+	assertValidId(id);
 
 	const { data: { values: data } } = await fetchAllData(client);
 
@@ -97,13 +111,17 @@ const fetchOne = async (client, id) => {
 	const examinerColumnIdx = headers.indexOf(examinerHeader);
 	const examTimeColumnIdx = headers.indexOf(examTimeHeader);
 	const expiryTimeColumnIdx = headers.indexOf(expiryTimeHeader);
+	const formFillTimeColumnIdx = headers.indexOf(formFillTimeHeader);
 
-	assert(~filterColumnIdx, `Filter column not found. Looked for ${filterColumnHeader}`);
-	assert(~certificateColumnIdx, `Certificate column not found. Looked for ${certificateHeader}`);
-	assert(~nameColumnIdx, `Certificate column not found. Looked for ${nameHeader}`);
-	assert(~examinerColumnIdx, `Examiner column not found. Looked for ${examinerHeader}`);
-	assert(~examTimeColumnIdx, `Exam time column not found. Looked for ${examTimeHeader}`);
-	assert(~expiryTimeColumnIdx, `Expiry time column not found. Looked for ${expiryTimeHeader}`);
+	assert(~filterColumnIdx, `Filter column not found. Looked for "${filterColumnHeader}"`);
+	assert(~certificateColumnIdx, `Certificate column not found. Looked for "${certificateHeader}"`);
+	assert(~nameColumnIdx, `Certificate column not found. Looked for "${nameHeader}"`);
+	assert(~examinerColumnIdx, `Examiner column not found. Looked for "${examinerHeader}"`);
+	assert(~examTimeColumnIdx, `Exam time column not found. Looked for "${examTimeHeader}"`);
+	assert(~expiryTimeColumnIdx, `Expiry time column not found. Looked for "${expiryTimeHeader}"`);
+	if (~formFillTimeColumnIdx) {
+		console.warn(`Form fill time column not found. Looked for "${formFillTimeHeader}"`);
+	}
 
 	const filteredRows = data.filter((row) => {
 		return row[filterColumnIdx] === id;
@@ -129,14 +147,18 @@ const fetchOne = async (client, id) => {
 	const row = filteredRows[0];
 	const certificate = normalizeCertificate(row[certificateColumnIdx] ?? '');
 
+	const formFillTime = transformFormFillTime(row[formFillTimeColumnIdx]);
+	const expiryTime = row[expiryTimeColumnIdx] || getExpiriTimeFromFormFillTime(formFillTime) || null;
+
 	return {
 		id,
 		success: true,
 		certificate,
 		name: row[nameColumnIdx],
-		examiner: row[examinerColumnIdx] ?? null,
-		examTime: row[examTimeColumnIdx] ?? null,
-		expiryTime: row[expiryTimeColumnIdx] ?? null,
+		examiner: row[examinerColumnIdx] || null,
+		examTime: row[examTimeColumnIdx] || null,
+		formFillTime,
+		expiryTime,
 	};
 };
 

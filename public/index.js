@@ -11,8 +11,8 @@ Vue.createApp({
 		isSubmitDisabled() {
 			return !this.idCode || this.idCode.length !== 11;
 		},
-		resultCardHeaderContent(){
-			if(!this.currentClimber) return null;
+		resultCardHeaderContent() {
+			if (!this.currentClimber) return null;
 			switch (this.currentClimber.certificate) {
 			case 'green':
 				return 'ROHELINE KAART';
@@ -24,8 +24,8 @@ Vue.createApp({
 				return null;
 			}
 		},
-		certificateDescription(){
-			if(!this.currentClimber) return null;
+		certificateDescription() {
+			if (!this.currentClimber) return null;
 			switch (this.currentClimber.certificate) {
 			case 'green':
 				return 'Sellel isikul on õigus iseseisvalt ülaltjulgestuses ronida ja julgestada.';
@@ -37,14 +37,14 @@ Vue.createApp({
 				return 'Seda isikukoodi ei ole registrisse lisatud. Tal ei ole õigust iseseisvalt ronida.';
 			}
 		},
-		showNoInfo(){
+		showNoInfo() {
 			return !this.currentClimber;
 		},
-		isClimberCertified(){
+		isClimberCertified() {
 			return this.currentClimber && ['green', 'red', 'instructor'].includes(this.currentClimber.certificate);
 		},
-		noAccessReason(){
-			if(this.currentClimber?.certificate == 'expired') return 'Selle isiku julgestajakaart on aegnud.';
+		noAccessReason() {
+			if (this.currentClimber?.certificate == 'expired') return 'Selle isiku julgestajakaart on aegnud.';
 			return 'Seda isikukoodi ei ole registrisse lisatud.';
 		}
 	},
@@ -85,17 +85,23 @@ Vue.createApp({
 			this.currentClimber = null;
 			this.showMobileInstructions = false;
 		},
-		formatClimberData: function (raw){
+		formatClimberData: function (raw) {
 			let result = raw;
-			result.formattedExamTime = result.examTime?.replaceAll('-','/');
+			result.formattedExamTime = result.examTime?.replaceAll('-','/') || 'N/A';
 			result.certificate = this.invalidateCertificateIfExpired(result);
 			return result;
 		},
-		toggleMobileInstructions: function (){
+		toggleMobileInstructions: function () {
 			this.showMobileInstructions = !this.showMobileInstructions;
 		},
-		invalidateCertificateIfExpired: function (climberData){
-			if(new Date(climberData.expiryTime) < Date.now()){
+		invalidateCertificateIfExpired: function (climberData) {
+			if (Date.parse(climberData.expiryTime) < Date.now()) {
+				// if expiry time is in the past and there's no exam time it means that
+				// the record was never updated from application to the real certificate
+				// it that case we will rather show "no certificate" than "expired"
+				if (!climberData.examTime) {
+					return 'none';
+				}
 				return 'expired';
 			}
 			return climberData.certificate;
