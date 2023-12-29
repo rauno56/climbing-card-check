@@ -1,9 +1,12 @@
+const resetTimeoutLength = 180000;
+
 Vue.createApp({
 	data: () => ({
 		currentClimber: null,
 		idCode: '',
 		isLoading: false,
 		showMobileInstructions: false,
+		timer: null
 	}),
 	created() {
 	},
@@ -48,6 +51,13 @@ Vue.createApp({
 			return 'Seda isikukoodi ei ole registrisse lisatud.';
 		}
 	},
+	watch:{
+		idCode(){
+			if(!this.timer) return;
+			clearTimeout(this.timer);
+			this.timer = setTimeout(this.resetState, resetTimeoutLength);
+		}
+	},
 	methods: {
 		fetchClimberData: function (id) {
 			return fetch(`/api/check?id=${id}`)
@@ -79,6 +89,7 @@ Vue.createApp({
 				})
 				.finally(()=>{
 					this.isLoading = false;
+					this.timer = setTimeout(this.resetState, resetTimeoutLength);
 				});
 		},
 		goBack: function () {
@@ -99,6 +110,9 @@ Vue.createApp({
 				return 'expired';
 			}
 			return climberData.certificate;
+		},
+		resetState() {
+			Object.assign(this.$data, this.$options.data.call(this));
 		},
 	},
 }).mount('#app');
