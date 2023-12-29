@@ -61,7 +61,7 @@
                 </template>
                 <div v-if="currentClimber && !isClimberCertified" id="no-access-result">
                     <h1>Ligipääs keelatud</h1>
-                    <p>ISIKUKOOD: <b>{{idCode}}</b></p>
+                    <p>ISIKUKOOD: <b>{{currentClimber.id}}</b></p>
                     <p class="no-access-reason">Põhjus: {{noAccessReason}}</p>
                     <img src="assets/NoAccesToWall.svg"/>
                     <div class="no-access-explanation">
@@ -159,7 +159,7 @@
                 </template>
                 <div v-if="currentClimber && !isClimberCertified" id="no-access-result">
                     <h1>Ligipääs keelatud</h1>
-                    <p>ISIKUKOOD: <b>{{idCode}}</b></p>
+                    <p>ISIKUKOOD: <b>{{currentClimber.id}}</b></p>
                     <p class="no-access-reason">Põhjus: {{noAccessReason}}</p>
                     <img src="assets/NoAccesToWall.svg"/>
                     <div class="no-access-explanation">
