@@ -78,7 +78,7 @@ const S = 1000;
 const MIN = 60 * S;
 const HR = 60 * MIN;
 const D = 24 * HR;
-const getExpiriTimeFromFormFillTime = (normDate) => {
+const getExpiryTimeFromFormFillTime = (normDate) => {
 	if (!normDate || typeof normDate !== 'string') {
 		return null;
 	}
@@ -148,7 +148,7 @@ const fetchOne = async (client, id) => {
 	const certificate = normalizeCertificate(row[certificateColumnIdx] ?? '');
 
 	const formFillTime = transformFormFillTime(row[formFillTimeColumnIdx]);
-	const expiryTime = row[expiryTimeColumnIdx] || getExpiriTimeFromFormFillTime(formFillTime) || null;
+	const expiryTime = row[expiryTimeColumnIdx] || getExpiryTimeFromFormFillTime(formFillTime) || null;
 
 	return {
 		id,
