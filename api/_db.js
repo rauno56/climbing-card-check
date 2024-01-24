@@ -4,7 +4,7 @@ import { strict as assert } from 'assert';
 import { google } from 'googleapis';
 
 const spreadsheetId = process.env.SPREADSHEET_ID;
-const sheetRange = 'Andmebaas';
+const sheetRange = 'Andmebaas v2';
 const sheets = google.sheets('v4');
 
 assert.equal(typeof spreadsheetId, 'string', 'Expected SPREADSHEET_ID env var to be set');
