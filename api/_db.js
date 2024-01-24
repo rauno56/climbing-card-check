@@ -4,7 +4,7 @@ import { strict as assert } from 'assert';
 import { google } from 'googleapis';
 
 const spreadsheetId = process.env.SPREADSHEET_ID;
-const sheetRange = 'Andmebaas';
+const sheetRange = 'Andmebaas v2';
 const sheets = google.sheets('v4');
 
 assert.equal(typeof spreadsheetId, 'string', 'Expected SPREADSHEET_ID env var to be set');
@@ -88,13 +88,13 @@ const getExpiryTimeFromFormFillTime = (normDate) => {
 };
 
 // have to either map by the position or header name, doing the latter
-const filterColumnHeader = 'ID';
-const certificateHeader = 'Pädevus';
-const nameHeader = 'Nimi';
-const examinerHeader = 'Väljastaja nimi';
-const examTimeHeader = 'Väljastamise kp';
-const expiryTimeHeader = 'Aegumise kp';
-const formFillTimeHeader = 'Vormi täitmise ts';
+const filterColumnHeader = 'Ronija isikukood';
+const certificateHeader = 'Eksami tüüp';
+const nameHeader = 'Ronija täisnimi';
+const examinerHeader = 'Eksamineerija nimi';
+const examTimeHeader = 'Eksami kuupäev';
+const expiryTimeHeader = 'Aegumise kuupäev';
+const formFillTimeHeader = 'Timestamp';
 
 const fetchOne = async (client, id) => {
 	assert(client instanceof google.auth.JWT, `"client" required got ${inspect(client)}`);
