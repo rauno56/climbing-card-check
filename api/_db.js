@@ -127,8 +127,6 @@ const fetchOne = async (client, id) => {
 		return row[filterColumnIdx] === id;
 	});
 
-	console.log(filteredRows);
-
 	// no result
 	if (!filteredRows.length) {
 		return {
