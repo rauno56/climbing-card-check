@@ -88,13 +88,13 @@ const getExpiryTimeFromFormFillTime = (normDate) => {
 };
 
 // have to either map by the position or header name, doing the latter
-const filterColumnHeader = 'ID';
-const certificateHeader = 'Pädevus';
-const nameHeader = 'Nimi';
-const examinerHeader = 'Väljastaja nimi';
-const examTimeHeader = 'Väljastamise kp';
-const expiryTimeHeader = 'Aegumise kp';
-const formFillTimeHeader = 'Vormi täitmise ts';
+const filterColumnHeader = 'Ronija isikukood';
+const certificateHeader = 'Eksami tüüp';
+const nameHeader = 'Ronija täisnimi';
+const examinerHeader = 'Eksamineerija nimi';
+const examTimeHeader = 'Eksami kuupäev';
+const expiryTimeHeader = 'Aegumise kuupäev';
+const formFillTimeHeader = 'Timestamp';
 
 const fetchOne = async (client, id) => {
 	assert(client instanceof google.auth.JWT, `"client" required got ${inspect(client)}`);
@@ -126,6 +126,8 @@ const fetchOne = async (client, id) => {
 	const filteredRows = data.filter((row) => {
 		return row[filterColumnIdx] === id;
 	});
+
+	console.log(filteredRows);
 
 	// no result
 	if (!filteredRows.length) {
