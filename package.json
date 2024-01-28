@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "vercel dev",
+    "lint": "eslint .",
     "test": "node --test"
   },
   "keywords": [],
