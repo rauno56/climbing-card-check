@@ -9,7 +9,7 @@
     "test": "node --test"
   },
   "keywords": [],
-  "author": "",
+  "author": "Estonian Climbing Association",
   "license": "ISC",
   "engines": {
     "node": "20.x"
