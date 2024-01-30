@@ -64,7 +64,7 @@ const getExpiryTimeFromFormFillTime = (normDate) => {
 	return new Date(exp);
 };
 
-// have to either map by the position or header name, doing the latter
+// column keys are stored in the second row of the DB
 const filterColumnHeader = 'id';
 const certificateHeader = 'certificate';
 const nameHeader = 'name';
@@ -74,7 +74,8 @@ const expiryDateHeader = 'expiryDate';
 const formFillTimeHeader = 'formFillTime';
 
 export const findById = (data, id) => {
-	// Drop human-readable headers
+	// Drop human-readable headers, because those can change any time
+	// form is changed. Will use the second row to key the columns
 	data.shift();
 	const headers = data.shift();
 
