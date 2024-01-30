@@ -29,6 +29,11 @@ const normalizeCertificate = (rawCertificate) => {
 	return CODE.UNKNOWN;
 };
 
+const assertValidId = (id) => {
+	assert.equal(typeof id, 'string', 'Expected ID to be a string');
+	assert.match(id, /[0-9]{11}/, 'Expected ID to consist of 11 digits');
+};
+
 const assertValidDate = (parsed) => {
 	assert(parsed instanceof Date && !isNaN(parsed.valueOf()), `Invalid Date: "${inspect(parsed)}"`);
 };
@@ -74,10 +79,11 @@ const expiryDateHeader = 'expiryDate';
 const formFillTimeHeader = 'formFillTime';
 
 export const findById = (data, id) => {
-	// Drop human-readable headers, because those can change any time
+	assertValidId(id);
+
+	// Ignore human-readable headers(the first row), because those can change any time
 	// form is changed. Will use the second row to key the columns
-	data.shift();
-	const headers = data.shift();
+	const headers = data[1];
 
 	const filterColumnIdx = headers.indexOf(filterColumnHeader);
 	const certificateColumnIdx = headers.indexOf(certificateHeader);
