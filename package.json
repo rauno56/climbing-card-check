@@ -4,13 +4,15 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "vercel dev",
+    "lint": "eslint .",
+    "test": "node --test"
   },
   "keywords": [],
-  "author": "",
+  "author": "Estonian Climbing Association",
   "license": "ISC",
   "engines": {
-    "node": "16.x"
+    "node": "18.x"
   },
   "dependencies": {
     "googleapis": "^100.0.0"

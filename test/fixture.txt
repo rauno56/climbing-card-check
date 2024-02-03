@@ -1,0 +1,10 @@
+Vormi täitmise ts	ID	Nimi	Pädevus	Väljastamise kp	Aegumise kp	Päevi aegumiseni	Väljastaja nimi
+formFillTime	id	name	certificate	examDate	expiryDate	daysToExpiration	examiner
+	10000000000	Robert Roheline	roheline	2021-08-20	2025-08-20	570	Ilmar Instruktor
+	20000000000	Pulvi Punane	punane	2020-12-15	2024-12-15		Eerik Eksamineerija
+	30000000000	Kaarel Kehtetu	punane	2017-11-15	2021-03-06	-1058	Tiit Testija
+	40000000000						
+	50000000000	Agnes Aegumas	roheline	2012-12-01	2022-10-11	-474	Andrei Popov
+	60000000000	Virve Vigane		2022-35-33			
+1/27/2024 14:26:50	70000000000	Ain Vormiga	roheline				Eerik Eksamineerija
+1/27/2024 14:26:50	80000000000	Viktor Vormiga	roheline	2023-12-01	2030-12-01	2499	Eerik Eksamineerija
