@@ -55,6 +55,27 @@ const parseDate = (rawValue) => {
 	return parsed;
 };
 
+const findHighestValidCertificate = (certificates) => {
+	// find the certificate that is not expired and has the highest value (red is higher than green).
+	// nonexpired green has to beat expired red, but red with shorter expiryTime has to beat any green.
+	return certificates.reduce((previous, current) =>{
+		if (!previous) {
+			return current;
+		}
+		if (parseDate(current.expiryTime) > Date.now()){
+			// TODO: maybe we should find the certificate with the longest expiry time
+			// currently the first valid one is kept
+			if (previous.certificate != CODE.RED && current.certificate == CODE.RED){
+				return current;
+			}
+			if (previous.certificate == CODE.GREEN && current.certificate == CODE.GREEN){
+				return current;
+			}
+		}
+		return previous;
+	},null);
+}
+
 const S = 1000;
 const MIN = 60 * S;
 const HR = 60 * MIN;
@@ -81,7 +102,7 @@ const formFillTimeHeader = 'formFillTime';
 export const findById = (data, id) => {
 	assertValidId(id);
 
-	// Ignore human-readable headers(the first row), because those can change any time
+	// ignore human-readable headers(the first row), because those can change any time
 	// form is changed. Will use the second row to key the columns
 	const headers = data[1];
 
@@ -107,28 +128,29 @@ export const findById = (data, id) => {
 		return row[filterColumnIdx] === id;
 	});
 
-	// no result
-	assert(filteredRows.length, 'Not found');
+	const parsedCertificates = filteredRows.map((row) => {
+		const certificate = normalizeCertificate(row[certificateColumnIdx] ?? '');
 
-	// more than one result, assume an filtering error
-	if (filteredRows.length > 1) {
-		console.log('Filtered more than one row', filteredRows);
-		throw new Error('More than one row');
-	}
+		const formFillDate = parseDate(row[formFillTimeColumnIdx]);
+		const expiryDate = parseDate(row[expiryDateColumnIdx]) || getExpiryTimeFromFormFillTime(formFillDate) || null;
 
-	const row = filteredRows[0];
-	const certificate = normalizeCertificate(row[certificateColumnIdx] ?? '');
+		return {
+			id,
+			certificate,
+			name: row[nameColumnIdx],
+			examiner: row[examinerColumnIdx] || null,
+			examTime: formatDate(parseDate(row[examDateColumnIdx])),
+			expiryTime: formatDate(expiryDate),
+		};
 
-	const formFillDate = parseDate(row[formFillTimeColumnIdx]);
-	const expiryDate = parseDate(row[expiryDateColumnIdx]) || getExpiryTimeFromFormFillTime(formFillDate) || null;
+	// remove certificates without expiryTime set
+	// the front-end does not handle this case, so we handle it here
+	}).filter((row) => row.expiryTime);
 
-	return {
-		id,
-		certificate,
-		name: row[nameColumnIdx],
-		examiner: row[examinerColumnIdx] || null,
-		examTime: formatDate(parseDate(row[examDateColumnIdx])),
-		formFillTime: formatDate(formFillDate),
-		expiryTime: formatDate(expiryDate),
-	};
+	// no valid certificates are found
+	assert(parsedCertificates.length, 'Not found');
+
+	const highestValueCertificate = findHighestValidCertificate(parsedCertificates);
+
+	return highestValueCertificate;
 };
