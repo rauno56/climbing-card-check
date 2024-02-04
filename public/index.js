@@ -44,7 +44,7 @@ Vue.createApp({
 			return this.currentClimber && ['green', 'red', 'instructor'].includes(this.currentClimber.certificate);
 		},
 		noAccessReason() {
-			if (this.currentClimber?.certificate == 'expired') return 'Selle isiku julgestajakaart on aegnud.';
+			if (this.currentClimber?.certificate === 'expired') return 'Selle isiku julgestajakaart on aegnud.';
 			return 'Seda isikukoodi ei ole registrisse lisatud.';
 		}
 	},
@@ -77,7 +77,7 @@ Vue.createApp({
 				.then((data) => {
 					this.currentClimber = data;
 				})
-				.finally(()=>{
+				.finally(() => {
 					this.isLoading = false;
 				});
 		},
@@ -87,7 +87,7 @@ Vue.createApp({
 		},
 		formatClimberData: function (raw) {
 			let result = raw;
-			result.formattedExamTime = result.examTime?.replaceAll('-','/') || 'N/A';
+			result.formattedExamTime = result.examTime?.replaceAll('-', '/') || 'N/A';
 			result.certificate = this.invalidateCertificateIfExpired(result);
 			return result;
 		},

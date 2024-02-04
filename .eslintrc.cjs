@@ -19,12 +19,17 @@ module.exports = {
 		'vue'
 	],
 	'rules': {
+		'arrow-spacing': ['error', { before: true, after: true }],
+		'comma-spacing': ['error', { after: true }],
 		'eol-last': ['error', 'always'],
+		'eqeqeq': ['error', 'always'],
 		'indent': ['error', 'tab'],
+		'keyword-spacing': ['error', { before: true, after: true }],
 		'linebreak-style': ['error', 'unix'],
-		'space-before-function-paren': ['error', { 'anonymous': 'always', 'named': 'ignore', 'asyncArrow': 'always' }],
 		'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 0 }],
 		'quotes': ['error', 'single'],
 		'semi': ['error', 'always'],
+		'space-before-blocks': ['error', 'always'],
+		'space-before-function-paren': ['error', { 'anonymous': 'always', 'named': 'ignore', 'asyncArrow': 'always' }],
 	}
 };
