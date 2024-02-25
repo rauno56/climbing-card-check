@@ -4,7 +4,6 @@ import { strict as assert } from 'assert';
 const CODE = {
 	GREEN: 'green',
 	RED: 'red',
-	INSTRUCTOR: 'instructor',
 	NONE: 'none',
 	UNKNOWN: 'unknown',
 };
@@ -12,7 +11,6 @@ const CODE = {
 const RAW_VALUE_TO_CODE = {
 	roheline: CODE.GREEN,
 	punane: CODE.RED,
-	instruktor: CODE.INSTRUCTOR,
 	'': CODE.NONE
 };
 
