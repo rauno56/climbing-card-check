@@ -18,8 +18,6 @@ Vue.createApp({
 				return 'ROHELINE KAART';
 			case 'red':
 				return 'PUNANE KAART';
-			case 'instructor':
-				return 'INSTRUKTOR';
 			default:
 				return null;
 			}
@@ -41,7 +39,7 @@ Vue.createApp({
 			return !this.currentClimber;
 		},
 		isClimberCertified() {
-			return this.currentClimber && ['green', 'red', 'instructor'].includes(this.currentClimber.certificate);
+			return this.currentClimber && ['green', 'red'].includes(this.currentClimber.certificate);
 		},
 		noAccessReason() {
 			if (this.currentClimber?.certificate === 'expired') return 'Selle isiku julgestajakaart on aegnud.';
