@@ -53,26 +53,39 @@ const parseDate = (rawValue) => {
 	return parsed;
 };
 
-const findHighestValidCertificate = (certificates) => {
-	// find the certificate that is not expired and has the highest value (red is higher than green).
-	// nonexpired green has to beat expired red, but red with shorter expiryTime has to beat any green.
-	return certificates.reduce((previous, current) =>{
-		if (!previous) {
-			return current;
-		}
-		if (parseDate(current.expiryTime) > Date.now()){
-			// TODO: maybe we should find the certificate with the longest expiry time
-			// currently the first valid one is kept
-			if (previous.certificate != CODE.RED && current.certificate == CODE.RED){
-				return current;
+const findBestCertificate = (certificates) => {
+	//The best certificate is found as follows:
+	// 1. Last issued RED card (that is still valid)
+	// 2. Last issued GREEN card (that is still valid)
+	// 3. Any expired card
+	// 4. Any invalid card
+
+	let bestRedCard = null;
+	let bestGreenCard = null;
+	let anyExpiredCard = null;
+	let anyInvalidCard = null;
+
+	for (const card of certificates) {
+		const expiryDate = parseDate(card.expiryTime);
+		const examDate = parseDate(card.examTime);
+
+		if ((card.certificate !== CODE.RED && card.certificate !== CODE.GREEN) || !expiryDate) {
+			anyInvalidCard = card;
+		} else if (expiryDate < Date.now()) {
+			anyExpiredCard = card;
+		} else if (card.certificate === CODE.GREEN) {
+			if (!bestGreenCard || (examDate > parseDate(bestGreenCard.examTime))) {
+				bestGreenCard = card;
 			}
-			if (previous.certificate == CODE.GREEN && current.certificate == CODE.GREEN){
-				return current;
+		} else if (card.certificate === CODE.RED) {
+			if (!bestRedCard || (examDate > parseDate(bestRedCard.examTime))) {
+				bestRedCard = card;
 			}
 		}
-		return previous;
-	},null);
-}
+	}
+
+	return bestRedCard || bestGreenCard || anyExpiredCard || anyInvalidCard || null;
+};
 
 const S = 1000;
 const MIN = 60 * S;
@@ -140,15 +153,18 @@ export const findById = (data, id) => {
 			examTime: formatDate(parseDate(row[examDateColumnIdx])),
 			expiryTime: formatDate(expiryDate),
 		};
+	});
 
-	// remove certificates without expiryTime set
-	// the front-end does not handle this case, so we handle it here
-	}).filter((row) => row.expiryTime);
-
-	// no valid certificates are found
 	assert(parsedCertificates.length, 'Not found');
 
-	const highestValueCertificate = findHighestValidCertificate(parsedCertificates);
+	const bestCertificate = findBestCertificate(parsedCertificates);
 
-	return highestValueCertificate;
+	//Check for all cases why the certificate might be invalid
+	const inspectString = `Invalid certificate: ${inspect(bestCertificate)}`;
+	assert(bestCertificate.name, inspectString);
+	assert(bestCertificate.examiner, inspectString);
+	assert(parseDate(bestCertificate.examTime), inspectString);
+	assert(parseDate(bestCertificate.expiryTime), inspectString);
+
+	return bestCertificate;
 };
