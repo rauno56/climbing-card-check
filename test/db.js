@@ -19,7 +19,6 @@ const testCases = {
 		name: 'Robert Roheline',
 		examiner: 'Ilmar Instruktor',
 		examTime: '2021-08-20',
-		formFillTime: null,
 		expiryTime: '2025-08-20'
 	},
 	'20000000000': {
@@ -28,7 +27,6 @@ const testCases = {
 		name: 'Pulvi Punane',
 		examiner: 'Eerik Eksamineerija',
 		examTime: '2020-12-15',
-		formFillTime: null,
 		expiryTime: '2024-12-15'
 	},
 	'30000000000': {
@@ -37,49 +35,54 @@ const testCases = {
 		name: 'Kaarel Kehtetu',
 		examiner: 'Tiit Testija',
 		examTime: '2017-11-15',
-		formFillTime: null,
 		expiryTime: '2021-03-06'
 	},
-	'40000000000': {
-		id: '40000000000',
-		certificate: 'none',
-		name: '',
-		examiner: null,
-		examTime: null,
-		formFillTime: null,
-		expiryTime: null
-	},
+	// '40000000000': {
+	// 	id: '40000000000',
+	// 	certificate: 'none',
+	// 	name: '',
+	// 	examiner: null,
+	// 	examTime: null,
+	// 	expiryTime: null
+	// },
 	'50000000000': {
 		id: '50000000000',
 		certificate: 'green',
 		name: 'Agnes Aegumas',
 		examiner: 'Andrei Popov',
 		examTime: '2012-12-01',
-		formFillTime: null,
 		expiryTime: '2022-10-11'
 	},
-	'70000000000': {
-		id: '70000000000',
-		certificate: 'green',
-		name: 'Ain Vormiga',
-		examiner: 'Eerik Eksamineerija',
-		examTime: null,
-		formFillTime: '2024-01-27',
-		expiryTime: '2024-03-09'
-	},
+	// '70000000000': {
+	// 	id: '70000000000',
+	// 	certificate: 'green',
+	// 	name: 'Ain Vormiga',
+	// 	examiner: 'Eerik Eksamineerija',
+	// 	examTime: null,
+	// 	expiryTime: '2024-03-09'
+	// },
 	'80000000000': {
 		id: '80000000000',
 		certificate: 'green',
 		name: 'Viktor Vormiga',
 		examiner: 'Eerik Eksamineerija',
 		examTime: '2023-12-01',
-		formFillTime: '2024-01-27',
 		expiryTime: '2030-12-01'
+	},
+	'90000000000': {
+		id: '90000000000',
+		certificate: 'green',
+		name: 'Kaspar Katsejänes',
+		examiner: 'Eerik Eksamineerija',
+		examTime: '2023-01-30',
+		expiryTime: '2029-12-08'
 	},
 };
 
 const invalidCases = {
 	'00000000000': /not found/i,
+	'40000000000': /invalid certificate/i,
+	'70000000000': /invalid certificate/i,
 	'60000000000': /invalid date/i,
 };
 

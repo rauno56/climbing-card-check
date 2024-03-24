@@ -53,6 +53,40 @@ const parseDate = (rawValue) => {
 	return parsed;
 };
 
+const findBestCertificate = (certificates) => {
+	//The best certificate is found as follows:
+	// 1. Last issued RED card (that is still valid)
+	// 2. Last issued GREEN card (that is still valid)
+	// 3. Any expired card
+	// 4. Any invalid card
+
+	let bestRedCard = null;
+	let bestGreenCard = null;
+	let anyExpiredCard = null;
+	let anyInvalidCard = null;
+
+	for (const card of certificates) {
+		const expiryDate = parseDate(card.expiryTime);
+		const examDate = parseDate(card.examTime);
+
+		if ((card.certificate !== CODE.RED && card.certificate !== CODE.GREEN) || !expiryDate) {
+			anyInvalidCard = card;
+		} else if (expiryDate < Date.now()) {
+			anyExpiredCard = card;
+		} else if (card.certificate === CODE.GREEN) {
+			if (!bestGreenCard || (examDate > parseDate(bestGreenCard.examTime))) {
+				bestGreenCard = card;
+			}
+		} else if (card.certificate === CODE.RED) {
+			if (!bestRedCard || (examDate > parseDate(bestRedCard.examTime))) {
+				bestRedCard = card;
+			}
+		}
+	}
+
+	return bestRedCard || bestGreenCard || anyExpiredCard || anyInvalidCard || null;
+};
+
 const S = 1000;
 const MIN = 60 * S;
 const HR = 60 * MIN;
@@ -79,7 +113,7 @@ const formFillTimeHeader = 'formFillTime';
 export const findById = (data, id) => {
 	assertValidId(id);
 
-	// Ignore human-readable headers(the first row), because those can change any time
+	// ignore human-readable headers(the first row), because those can change any time
 	// form is changed. Will use the second row to key the columns
 	const headers = data[1];
 
@@ -105,28 +139,32 @@ export const findById = (data, id) => {
 		return row[filterColumnIdx] === id;
 	});
 
-	// no result
-	assert(filteredRows.length, 'Not found');
+	const parsedCertificates = filteredRows.map((row) => {
+		const certificate = normalizeCertificate(row[certificateColumnIdx] ?? '');
 
-	// more than one result, assume an filtering error
-	if (filteredRows.length > 1) {
-		console.log('Filtered more than one row', filteredRows);
-		throw new Error('More than one row');
-	}
+		const formFillDate = parseDate(row[formFillTimeColumnIdx]);
+		const expiryDate = parseDate(row[expiryDateColumnIdx]) || getExpiryTimeFromFormFillTime(formFillDate) || null;
 
-	const row = filteredRows[0];
-	const certificate = normalizeCertificate(row[certificateColumnIdx] ?? '');
+		return {
+			id,
+			certificate,
+			name: row[nameColumnIdx],
+			examiner: row[examinerColumnIdx] || null,
+			examTime: formatDate(parseDate(row[examDateColumnIdx])),
+			expiryTime: formatDate(expiryDate),
+		};
+	});
 
-	const formFillDate = parseDate(row[formFillTimeColumnIdx]);
-	const expiryDate = parseDate(row[expiryDateColumnIdx]) || getExpiryTimeFromFormFillTime(formFillDate) || null;
+	assert(parsedCertificates.length, 'Not found');
 
-	return {
-		id,
-		certificate,
-		name: row[nameColumnIdx],
-		examiner: row[examinerColumnIdx] || null,
-		examTime: formatDate(parseDate(row[examDateColumnIdx])),
-		formFillTime: formatDate(formFillDate),
-		expiryTime: formatDate(expiryDate),
-	};
+	const bestCertificate = findBestCertificate(parsedCertificates);
+
+	//Check for all cases why the certificate might be invalid
+	const inspectString = `Invalid certificate: ${inspect(bestCertificate)}`;
+	assert(bestCertificate.name, inspectString);
+	assert(bestCertificate.examiner, inspectString);
+	assert(parseDate(bestCertificate.examTime), inspectString);
+	assert(parseDate(bestCertificate.expiryTime), inspectString);
+
+	return bestCertificate;
 };
