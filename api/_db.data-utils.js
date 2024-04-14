@@ -66,8 +66,7 @@ const findBestCertificate = (certificates) => {
 	let anyInvalidCard = null;
 
 	for (const card of certificates) {
-
-		if ((card.certificate !== CODE.RED && card.certificate !== CODE.GREEN) || !expiryDate) {
+		if (!card.expiryTime) {
 			anyInvalidCard = card;
 		} else if (card.expiryTime < Date.now()) {
 			anyExpiredCard = card;
@@ -79,6 +78,9 @@ const findBestCertificate = (certificates) => {
 			if (!bestRedCard || (card.examDate > bestRedCard.examTime)) {
 				bestRedCard = card;
 			}
+		} else {
+			// The card doesn't have a valid certificate (neither green nor red)
+			anyInvalidCard = card;
 		}
 	}
 
