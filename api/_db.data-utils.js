@@ -14,7 +14,7 @@ const RAW_VALUE_TO_CODE = {
 	'': CODE.NONE
 };
 
-// raw input from the sheet => valueof CODE
+// Raw input from the sheet => valueof CODE
 const normalizeCertificate = (rawCertificate) => {
 	assert.equal(typeof rawCertificate, 'string', `Expected "rawCertificate" to be a string, got ${inspect(rawCertificate)}`);
 	const certificate = RAW_VALUE_TO_CODE[rawCertificate.toLowerCase()];
@@ -54,7 +54,7 @@ const parseDate = (rawValue) => {
 };
 
 const findBestCertificate = (certificates) => {
-	//The best certificate is found as follows:
+	// The best certificate is found as follows:
 	// 1. Last issued RED card (that is still valid)
 	// 2. Last issued GREEN card (that is still valid)
 	// 3. Any expired card
@@ -101,7 +101,7 @@ const getExpiryTimeFromFormFillTime = (normDate) => {
 	return new Date(exp);
 };
 
-// column keys are stored in the second row of the DB
+// Column keys are stored in the second row of the DB
 const filterColumnHeader = 'id';
 const certificateHeader = 'certificate';
 const nameHeader = 'name';
@@ -113,7 +113,7 @@ const formFillTimeHeader = 'formFillTime';
 export const findById = (data, id) => {
 	assertValidId(id);
 
-	// ignore human-readable headers(the first row), because those can change any time
+	// Ignore human-readable headers(the first row), because those can change any time
 	// form is changed. Will use the second row to key the columns
 	const headers = data[1];
 
@@ -156,7 +156,7 @@ export const findById = (data, id) => {
 
 	const bestCertificate = findBestCertificate(parsedCertificates);
 
-	//Check for all cases why the certificate might be invalid
+	// Check for all cases why the certificate might be invalid
 	const inspectString = `Invalid certificate: ${inspect(bestCertificate)}`;
 	assert(bestCertificate.name, inspectString);
 	assert(bestCertificate.examiner, inspectString);
