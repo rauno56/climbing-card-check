@@ -37,14 +37,6 @@ const testCases = {
 		examTime: '2017-11-15',
 		expiryTime: '2021-03-06'
 	},
-	// '40000000000': {
-	// 	id: '40000000000',
-	// 	certificate: 'none',
-	// 	name: '',
-	// 	examiner: null,
-	// 	examTime: null,
-	// 	expiryTime: null
-	// },
 	'50000000000': {
 		id: '50000000000',
 		certificate: 'green',
@@ -53,14 +45,6 @@ const testCases = {
 		examTime: '2012-12-01',
 		expiryTime: '2022-10-11'
 	},
-	// '70000000000': {
-	// 	id: '70000000000',
-	// 	certificate: 'green',
-	// 	name: 'Ain Vormiga',
-	// 	examiner: 'Eerik Eksamineerija',
-	// 	examTime: null,
-	// 	expiryTime: '2024-03-09'
-	// },
 	'80000000000': {
 		id: '80000000000',
 		certificate: 'green',
