@@ -66,19 +66,17 @@ const findBestCertificate = (certificates) => {
 	let anyInvalidCard = null;
 
 	for (const card of certificates) {
-		const expiryDate = parseDate(card.expiryTime);
-		const examDate = parseDate(card.examTime);
 
 		if ((card.certificate !== CODE.RED && card.certificate !== CODE.GREEN) || !expiryDate) {
 			anyInvalidCard = card;
-		} else if (expiryDate < Date.now()) {
+		} else if (card.expiryTime < Date.now()) {
 			anyExpiredCard = card;
 		} else if (card.certificate === CODE.GREEN) {
-			if (!bestGreenCard || (examDate > parseDate(bestGreenCard.examTime))) {
+			if (!bestGreenCard || (card.examDate > bestGreenCard.examTime)) {
 				bestGreenCard = card;
 			}
 		} else if (card.certificate === CODE.RED) {
-			if (!bestRedCard || (examDate > parseDate(bestRedCard.examTime))) {
+			if (!bestRedCard || (card.examDate > bestRedCard.examTime)) {
 				bestRedCard = card;
 			}
 		}
@@ -142,16 +140,13 @@ export const findById = (data, id) => {
 	const parsedCertificates = filteredRows.map((row) => {
 		const certificate = normalizeCertificate(row[certificateColumnIdx] ?? '');
 
-		const formFillDate = parseDate(row[formFillTimeColumnIdx]);
-		const expiryDate = parseDate(row[expiryDateColumnIdx]) || getExpiryTimeFromFormFillTime(formFillDate) || null;
-
 		return {
 			id,
 			certificate,
 			name: row[nameColumnIdx],
 			examiner: row[examinerColumnIdx] || null,
-			examTime: formatDate(parseDate(row[examDateColumnIdx])),
-			expiryTime: formatDate(expiryDate),
+			examTime: parseDate(row[examDateColumnIdx]),
+			expiryTime: parseDate(row[expiryDateColumnIdx]) || getExpiryTimeFromFormFillTime(parseDate(row[formFillTimeColumnIdx])) || null,
 		};
 	});
 
@@ -163,8 +158,12 @@ export const findById = (data, id) => {
 	const inspectString = `Invalid certificate: ${inspect(bestCertificate)}`;
 	assert(bestCertificate.name, inspectString);
 	assert(bestCertificate.examiner, inspectString);
-	assert(parseDate(bestCertificate.examTime), inspectString);
-	assert(parseDate(bestCertificate.expiryTime), inspectString);
+	assert(bestCertificate.examTime, inspectString);
+	assert(bestCertificate.expiryTime, inspectString);
 
-	return bestCertificate;
+	return {
+		...	bestCertificate,
+		examTime: formatDate(bestCertificate.examTime),
+		expiryTime: formatDate(bestCertificate.expiryTime)
+	};
 };
