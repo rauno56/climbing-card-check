@@ -94,7 +94,7 @@ Vue.createApp({
 		},
 		invalidateCertificateIfExpired: function (climberData) {
 			if (Date.parse(climberData.expiryTime) < Date.now()) {
-				// if expiry time is in the past and there's no exam time it means that
+				// If expiry time is in the past and there's no exam time it means that
 				// the record was never updated from application to the real certificate
 				// it that case we will rather show "no certificate" than "expired"
 				if (!climberData.examTime) {

@@ -8,3 +8,6 @@ formFillTime	id	name	certificate	examDate	expiryDate	daysToExpiration	examiner
 	60000000000	Virve Vigane		2022-35-33			
 1/27/2024 14:26:50	70000000000	Ain Vormiga	roheline				Eerik Eksamineerija
 1/27/2024 14:26:50	80000000000	Viktor Vormiga	roheline	2023-12-01	2030-12-01	2499	Eerik Eksamineerija
+	90000000000	Kaspar Katsejänes	roheline	2023-01-30	2029-12-08	2085	Eerik Eksamineerija
+	90000000000	Kaspar Katsejänes	roheline	2023-01-28	2023-08-11	-226	Tiit Testija
+	90000000000	Kaspar Katsejänes	punane	2023-01-30	2024-02-11	-42	Indrek Instruktor
