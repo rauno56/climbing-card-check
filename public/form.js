@@ -55,9 +55,9 @@ Vue.createApp({
 				},
 				body: JSON.stringify(this.loginData)
 			})
-			.then(response => response.json())
-			.then(data => {
-				if (data.success) {
+			.then(async (response) => ({ response, body: await response.json()}))
+			.then(({ response, body }) => {
+				if (body.success) {
 					this.isAuthenticated = true;
 					this.authCredentials = { ...this.loginData };
 					this.loginData = { username: '', password: '' };
@@ -65,7 +65,7 @@ Vue.createApp({
 						document.getElementById('idCode')?.focus();
 					});
 				} else {
-					this.loginError = data.error || 'Vale kasutajanimi või parool';
+					this.loginError = response.status === 401 || !body.error ? 'Vale kasutajanimi või parool' : body.error;
 				}
 			})
 			.catch(() => {

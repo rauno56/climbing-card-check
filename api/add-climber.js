@@ -1,4 +1,5 @@
 import { validate } from "./_auth.js";
+import { isIdCodeValid } from "./_db.data-utils.js";
 
 export default function handler(req, res) {
 	if (req.method !== 'POST') {
@@ -19,6 +20,10 @@ export default function handler(req, res) {
 	// Validate idCode format (11 digits)
 	if (!/^\d{11}$/.test(idCode)) {
 		return res.status(400).json({ error: 'Invalid ID code format', success: false });
+	}
+
+	if (!isIdCodeValid(idCode)) {
+		return res.status(400).json({ error: 'Invalid ID code', success: false });
 	}
 
 	// Validate email format
