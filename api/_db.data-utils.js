@@ -169,3 +169,44 @@ export const findById = (data, id) => {
 		expiryTime: formatDate(bestCertificate.expiryTime)
 	};
 };
+
+export const isIdCodeValid = (code) => {
+	if (typeof code !== 'string' || code.length !== 11) {
+		return false;
+	}
+	const nr = Array.prototype.map.call(code, (nr) => parseInt(nr, 10));
+
+	if (nr.some(Number.isNaN)) {
+		return false;
+	}
+
+	const controlCode = (
+		nr[0]*1 +
+		nr[1]*2 +
+		nr[2]*3 +
+		nr[3]*4 +
+		nr[4]*5 +
+		nr[5]*6 +
+		nr[6]*7 +
+		nr[7]*8 +
+		nr[8]*9 +
+		nr[9]*1
+	) % 11;
+
+	if (controlCode !== 10) {
+		return nr[10] === controlCode;
+	}
+
+	return nr[10] === (
+		nr[0]*3 +
+		nr[1]*4 +
+		nr[2]*5 +
+		nr[3]*6 +
+		nr[4]*7 +
+		nr[5]*8 +
+		nr[6]*9 +
+		nr[7]*1 +
+		nr[8]*2 +
+		nr[9]*3
+	) % 11;
+};
