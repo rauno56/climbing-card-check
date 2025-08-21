@@ -1,4 +1,4 @@
-import { validate } from "./_auth.js";
+import { validate } from './_auth.js';
 
 export default function handler(req, res) {
 	if (req.method !== 'POST') {

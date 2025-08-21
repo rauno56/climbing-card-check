@@ -32,13 +32,13 @@ Vue.createApp({
 		},
 		isSubmitDisabled() {
 			return !this.formData.idCode ||
-				   this.formData.idCode.length !== 11 ||
-				   !this.formData.name ||
-				   !this.formData.email ||
-				   !this.formData.cardType ||
-				   !this.formData.examDate ||
-				   !this.isValidEmail(this.formData.email) ||
-				   this.isLoading;
+					this.formData.idCode.length !== 11 ||
+					!this.formData.name ||
+					!this.formData.email ||
+					!this.formData.cardType ||
+					!this.formData.examDate ||
+					!this.isValidEmail(this.formData.email) ||
+					this.isLoading;
 		}
 	},
 	methods: {
@@ -55,25 +55,25 @@ Vue.createApp({
 				},
 				body: JSON.stringify(this.loginData)
 			})
-			.then(async (response) => ({ response, body: await response.json()}))
-			.then(({ response, body }) => {
-				if (body.success) {
-					this.isAuthenticated = true;
-					this.authCredentials = { ...this.loginData };
-					this.loginData = { username: '', password: '' };
-					this.$nextTick(() => {
-						document.getElementById('idCode')?.focus();
-					});
-				} else {
-					this.loginError = response.status === 401 || !body.error ? 'Vale kasutajanimi või parool' : body.error;
-				}
-			})
-			.catch(() => {
-				this.loginError = 'Sisselogimine ebaõnnestus';
-			})
-			.finally(() => {
-				this.isLoggingIn = false;
-			});
+				.then(async (response) => ({ response, body: await response.json()}))
+				.then(({ response, body }) => {
+					if (body.success) {
+						this.isAuthenticated = true;
+						this.authCredentials = { ...this.loginData };
+						this.loginData = { username: '', password: '' };
+						this.$nextTick(() => {
+							document.getElementById('idCode')?.focus();
+						});
+					} else {
+						this.loginError = response.status === 401 || !body.error ? 'Vale kasutajanimi või parool' : body.error;
+					}
+				})
+				.catch(() => {
+					this.loginError = 'Sisselogimine ebaõnnestus';
+				})
+				.finally(() => {
+					this.isLoggingIn = false;
+				});
 		},
 		logout: function () {
 			this.isAuthenticated = false;
@@ -103,25 +103,25 @@ Vue.createApp({
 				},
 				body: JSON.stringify(payload)
 			})
-			.then(response => response.json())
-			.then(data => {
-				if (data.success) {
-					this.submittedData = { ...this.formData };
-					this.submitted = true;
-					this.resetForm();
-					this.$nextTick(() => {
-						document.getElementById('idCode')?.focus();
-					});
-				} else {
-					alert('Viga andmete lisamisel: ' + (data.error || 'Tundmatu viga'));
-				}
-			})
-			.catch(() => {
-				alert('Viga andmete lisamisel');
-			})
-			.finally(() => {
-				this.isLoading = false;
-			});
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						this.submittedData = { ...this.formData };
+						this.submitted = true;
+						this.resetForm();
+						this.$nextTick(() => {
+							document.getElementById('idCode')?.focus();
+						});
+					} else {
+						alert('Viga andmete lisamisel: ' + (data.error || 'Tundmatu viga'));
+					}
+				})
+				.catch(() => {
+					alert('Viga andmete lisamisel');
+				})
+				.finally(() => {
+					this.isLoading = false;
+				});
 		},
 		goBack: function () {
 			this.submitted = false;
@@ -134,7 +134,7 @@ Vue.createApp({
 			this.submittedData = null;
 			this.resetForm();
 		},
-		resetForm: function() {
+		resetForm: function () {
 			this.formData = {
 				idCode: '',
 				name: '',
@@ -149,12 +149,12 @@ Vue.createApp({
 		},
 		getCardTypeName: function (cardType) {
 			switch (cardType) {
-				case 'green':
-					return 'Roheline';
-				case 'red':
-					return 'Punane';
-				default:
-					return cardType;
+			case 'green':
+				return 'Roheline';
+			case 'red':
+				return 'Punane';
+			default:
+				return cardType;
 			}
 		},
 		formatDate: function (dateString) {

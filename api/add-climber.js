@@ -1,5 +1,5 @@
-import { validate } from "./_auth.js";
-import { isIdCodeValid } from "./_db.data-utils.js";
+import { validate } from './_auth.js';
+import { isIdCodeValid } from './_db.data-utils.js';
 
 export default function handler(req, res) {
 	if (req.method !== 'POST') {

@@ -1,5 +1,5 @@
-import process from "node:process";
-import assert from "node:assert";
+import process from 'node:process';
+import assert from 'node:assert';
 
 const validUsers = JSON.parse(process.env.AUTH_USERS ?? '[]');
 

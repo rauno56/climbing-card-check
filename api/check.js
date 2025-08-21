@@ -11,7 +11,7 @@ export default async function handler(request, response) {
 		return response.status(200).json({
 			success: false,
 			id,
-			message: "Invalid id code",
+			message: 'Invalid id code',
 		});
 	}
 
