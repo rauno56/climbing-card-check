@@ -1,7 +1,7 @@
 import { validate } from './_auth.js';
 import { certificateCodeToRegistryValue, isIdCodeValid } from './_db.data-utils.js';
 import * as db from './_db.js';
-import { climberAddedNotification } from './_email.js';
+import { climberAddedNextSteps, climberAddedNotification } from './_email.js';
 import * as key from './_key.js';
 
 export default async function handler(req, res) {
@@ -81,7 +81,10 @@ export default async function handler(req, res) {
 		];
 
 		await db.addRow(sheetsClient, rowData);
-		await climberAddedNotification(authUser.name, name);
+		await Promise.all([
+			climberAddedNotification(authUser.name, name),
+			climberAddedNextSteps(email, name),
+		]);
 
 		return res.status(200).json({
 			success: true,
