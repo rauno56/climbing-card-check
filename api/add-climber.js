@@ -1,14 +1,18 @@
 import { validate } from './_auth.js';
-import { isIdCodeValid } from './_db.data-utils.js';
+import { certificateCodeToRegistryValue, isIdCodeValid } from './_db.data-utils.js';
+import * as db from './_db.js';
+import { climberAddedNotification } from './_email.js';
+import * as key from './_key.js';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
 	if (req.method !== 'POST') {
 		return res.status(405).json({ error: 'Method not allowed' });
 	}
 
 	const { username, password, idCode, name, email, cardType, examDate, comment } = req.body;
+	const authUser = await validate(username, password);
 
-	if (!validate(username, password)) {
+	if (!authUser) {
 		return res.status(401).json({ error: 'Unauthorized', success: false });
 	}
 
@@ -53,15 +57,44 @@ export default function handler(req, res) {
 		examiner: username
 	};
 
-	// TODO: Here you would save to your data store (Google Sheets, etc.)
-	// For now, just log the record
-	console.log('New climber record:', record);
+	try {
+		const secretKey = key.load();
+		const sheetsClient = await db.connect(secretKey.client_email, secretKey.private_key);
 
-	return res.status(200).json({
-		success: true,
-		message: 'Climber added successfully',
-		record: record
-	});
+		// Row data matching header: formFillTime, id, name, certificate, examDate, expiryDate, daysUntilExpiry, examiner, email, phone, comment, formFillerEmail, formPassword, dataConsent, responsiblityConsent
+		const rowData = [
+			new Date().toISOString(), // formFillTime
+			idCode, // id
+			name, // name
+			certificateCodeToRegistryValue(cardType), // certificate
+			examDate, // examDate
+			record.expiryTime, // expiryDate
+			'', // daysUntilExpiry - calculated field, left empty (formulas don't work with append API)
+			authUser.name, // examiner
+			email, // email
+			'', // phone - not collected in this form
+			comment || '', // comment
+			'', // formFillerEmail - not applicable for automatic entry
+			'', // formPassword - not applicable for automatic entry
+			'', // dataConsent - not collected in this form
+			'' // responsiblityConsent - not collected in this form
+		];
+
+		await db.addRow(sheetsClient, rowData);
+		await climberAddedNotification(authUser.name, name);
+
+		return res.status(200).json({
+			success: true,
+			message: 'Climber added successfully',
+			record: record
+		});
+	} catch (error) {
+		console.error('Error adding climber:', error);
+		return res.status(500).json({
+			success: false,
+			error: 'Failed to add climber'
+		});
+	}
 }
 
 function calculateExpiryDate(examDate) {

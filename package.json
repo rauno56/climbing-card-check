@@ -15,7 +15,8 @@
     "node": "22.x"
   },
   "dependencies": {
-    "googleapis": "^100.0.0"
+    "googleapis": "^100.0.0",
+    "nodemailer": "^7.0.6"
   },
   "devDependencies": {
     "eslint": "^8.18.0",

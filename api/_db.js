@@ -1,6 +1,6 @@
-import { inspect } from 'util';
-import { strict as assert } from 'assert';
-
+import { strict as assert } from 'node:assert';
+import process from 'node:process';
+import { inspect } from 'node:util';
 import { google } from 'googleapis';
 
 import { findById } from './_db.data-utils.js';
@@ -57,4 +57,24 @@ const fetchOne = async (client, id) => {
 	}
 };
 
-export { connect, fetchAllData, fetchOne };
+const addRow = async (client, rowData) => {
+	assert(client instanceof google.auth.JWT, '"client" required');
+	assert(Array.isArray(rowData), '"rowData" must be an array');
+
+	const values = [rowData];
+
+	const result = await sheets.spreadsheets.values.append({
+		auth: client,
+		spreadsheetId: spreadsheetId,
+		range: sheetRange,
+		valueInputOption: 'USER_ENTERED',
+		resource: {
+			values: values
+		}
+	});
+
+	console.log({ ts: new Date(), msg: 'row added', updatedCells: result.data.updates.updatedCells });
+	return result;
+};
+
+export { connect, fetchAllData, fetchOne, addRow };

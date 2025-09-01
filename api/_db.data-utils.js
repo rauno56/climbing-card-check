@@ -1,5 +1,5 @@
-import { inspect } from 'util';
-import { strict as assert } from 'assert';
+import { strict as assert } from 'node:assert';
+import { inspect } from 'node:util';
 
 const CODE = {
 	GREEN: 'green',
@@ -12,6 +12,17 @@ const RAW_VALUE_TO_CODE = {
 	roheline: CODE.GREEN,
 	punane: CODE.RED,
 	'': CODE.NONE
+};
+
+const CODE_TO_REGISTRY_VALUE = {
+	[CODE.GREEN]: 'roheline',
+	[CODE.RED]: 'punane',
+};
+
+export const certificateCodeToRegistryValue = (code) => {
+	assert.equal(typeof CODE_TO_REGISTRY_VALUE[code], 'string', `Expected code to be a string, got ${inspect(code)}`);
+
+	return CODE_TO_REGISTRY_VALUE[code];
 };
 
 // Raw input from the sheet => valueof CODE
