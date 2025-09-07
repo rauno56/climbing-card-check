@@ -17,7 +17,7 @@
 <body>
     <div id="app">
         <div id="left-background"></div>
-        <div id="left" :class="!isAuthenticated ? 'desktop':''">
+        <div id="left" v-if="!submitted">
             <!-- Login Form -->
             <form v-if="!isAuthenticated" id="form" @submit.prevent="login">
                 <div>
