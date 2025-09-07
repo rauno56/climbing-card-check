@@ -44,6 +44,10 @@ Nimi: ${name}`;
 	return await send(email.testTo, subject, text);
 };
 
+export const sanitizeEmail = (climberEmail) => {
+	return climberEmail.replace(/[<>]+/g, '');
+};
+
 export const climberAddedNextSteps = async (climberEmail, climberName) => {
 	assert.equal(typeof climberEmail, 'string', 'Climber email must be a string');
 
@@ -58,6 +62,6 @@ Teid lisati julgestajakaartide registrisse. Kaardi aktiviseerimiseks
 Tänades
 Ronimisliidu meeskond`;
 
-	// TODO: use climber email
+	// TODO: use climber email `${sanitizeEmail(climberName)} <${sanitizeEmail(climberEmail)}>`
 	return await send(email.testTo, subject, text);
 };
