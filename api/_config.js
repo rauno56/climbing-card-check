@@ -7,9 +7,12 @@ export const emailAuth = {
 };
 
 const { EMAIL_TEST_TO } = process.env;
+
 export const email = {
 	replyTo: 'julgestajakaart@ronimisliit.ee',
-	testTo: EMAIL_TEST_TO,
+	testTo: EMAIL_TEST_TO.split(',')
+		.map((rec) => rec.trim())
+		.filter((rec) => rec.length),
 };
 
 const { MONTONIO_ACCESS_KEY, MONTONIO_SECRET_KEY } = process.env;
